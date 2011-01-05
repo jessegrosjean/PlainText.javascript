@@ -1,4 +1,4 @@
-// parse lines.
+// parse line structure.
 // parse section types
 // parse tags, etc.
 

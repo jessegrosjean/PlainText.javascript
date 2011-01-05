@@ -1,5 +1,7 @@
 'use strict';
 
+var SectionTextContent
+
 var Section = function(aLine) {
 	this._type = null;
 	this._textContent = null;
@@ -30,11 +32,13 @@ Section.prototype.textContent = function() {
 Section.prototype.setTextContent = function(aLine) {
 	aLine =  aLine || '';
 	
-	// Assert single line.
-	this._textContent = aLine;
-	this.sectionContentDIV().textContent = aLine;
+	if (aLine.indexOf('\n') != -1)
+		throw new Error("Text content must not have newlines");
 	
-	// Update contentDIV
+	this._textContent = aLine;
+
+	// parse new line and update type, level, tags, contentDIV.
+	this.sectionContentDIV().textContent = aLine;
 }
 
 Section.prototype.toString = function() {
