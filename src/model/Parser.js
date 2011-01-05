@@ -6,7 +6,7 @@ var parser = function(state) {
 	var that = {}
 
 	that.parseSectionsFromText = function(text) {
-		var lines = text.split("\n");
+		var lines = text.split('\n');
 		var sections = [];
 		
 		lines.forEach(function(line) {

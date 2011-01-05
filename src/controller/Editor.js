@@ -4,7 +4,7 @@
 // key binding
 	
 var editor = function(state) {
-	var that = document.createElement("ul");
+	var that = document.createElement('ul');
 	
 	// Init
 	that.className = 'editor';
@@ -18,7 +18,7 @@ var editor = function(state) {
 	that.scrollerLayer = null;
 	
 	var rootSection = document.createSectionElement('');
-	rootSection.className = "root";
+	rootSection.className = 'root';
 	that.appendChild(rootSection);
 	state.rootSection = rootSection;
 	

@@ -1,4 +1,4 @@
-describe("UndoManager", function() {
+describe('UndoManager', function() {
 
 	beforeEach(function() {
 	});

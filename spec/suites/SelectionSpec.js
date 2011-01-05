@@ -1,4 +1,4 @@
-describe("Selection", function() {
+describe('Selection', function() {
 
 	beforeEach(function() {
 	});

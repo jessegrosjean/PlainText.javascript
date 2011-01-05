@@ -1,4 +1,4 @@
-describe("Range", function() {
+describe('Range', function() {
 	var range;
 	
 	beforeEach(function() {
@@ -9,7 +9,7 @@ describe("Range", function() {
 		range.detach();
 	});
 	
-	it("should be created", function() {
+	it('should be created', function() {
 		expect(range).not.toBeNull();
 	});
 

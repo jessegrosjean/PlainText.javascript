@@ -1,3 +1,268 @@
+'use strict';
+
+var Section = function(aLine) {
+	this._type = null;
+	this._textContent = null;
+	this._parent = null;
+	this._previousSibling = null;
+	this._nextSibling = null;
+	this._firstChild = null;
+	this._lastChild = null;
+	this._firstTag = null;
+	this._lastTag = null;
+	this._sectionLI = document.createElement('li');
+	this._sectionLI.appendChild(document.createElement('div'));
+	this.setTextContent(aLine);
+};
+
+// ----------------------------------------------------------------
+// Attributes
+// ----------------------------------------------------------------
+
+Section.prototype.type = function() {
+	return this._type;
+}
+
+Section.prototype.textContent = function() {
+	return this._textContent;
+}
+
+Section.prototype.setTextContent = function(aLine) {
+	aLine =  aLine || '';
+	
+	// Assert single line.
+	this._textContent = aLine;
+	this.sectionContentDIV().textContent = aLine;
+	
+	// Update contentDIV
+}
+
+Section.prototype.toString = function() {
+	return "Section(" + this._textContent + ")";
+}
+
+// ----------------------------------------------------------------
+// Tags
+// ----------------------------------------------------------------
+
+Section.prototype.hasTags = function() {
+	return this._firstTag != null;
+}
+
+Section.prototype.firstTag = function() {
+	return this._firstTag;
+}
+
+Section.prototype.lastTag = function() {
+	return this._lastTag;
+}
+
+// ----------------------------------------------------------------
+// Tree Structure
+// ----------------------------------------------------------------
+
+Section.prototype.parent = function() {
+	return this._parent;
+}
+
+Section.prototype.previousSibling = function() {
+	return this._previousSibling;
+}
+
+Section.prototype.nextSibling = function() {
+	return this._nextSibling;
+}
+
+Section.prototype.hasChildren = function() {
+	return this._firstChild != null;
+}
+
+Section.prototype.firstChild = function() {
+	return this._firstChild;
+}
+
+Section.prototype.lastChild = function() {
+	return this._lastChild;
+}
+
+Section.prototype.appendChild = function(aChild) {
+	this.insertChildBefore(aChild, null);
+}
+
+Section.prototype.removeChild = function(aChild) {
+	var prev = aChild._previousSibling;
+	var next = aChild._nextSibling;
+	var firstChild = this._firstChild;
+	var lastChild = this._lastChild;
+	var childLI = aChild.sectionLI();
+	var parentUL = childLI.parent;
+	
+	if (prev !== null) prev._nextSibling = next;
+	if (next !== null) next._previousSibling = prev;
+	
+	if (firstChild === aChild) this._firstChild = prev || next;
+	if (lastChild === aChild) this._lastChild = next || prev;
+		
+	aChild._parent = null;
+	aChild._previousSibling = null;
+	aChild._nextSibling = null;
+
+	if (parentUL) {
+		parentUL.removeChild(childLI);
+		if (!parentUL.hasChildNodes()) {
+			parentUL.parent.removeChild(parentUL);
+		}
+	}
+}
+
+Section.prototype.insertChildBefore = function(aChild, aSibling) {
+	var oldParent = aChild._parent;
+	var firstChild = this._firstChild;
+	var lastChild = this._lastChild;
+	var prev = aSibling === null ? lastChild : aSibling._previousSibling;
+	var next = aSibling;
+	var childrenUL = this.sectionChildrenUL(true);
+	var childLI = aChild.sectionLI();
+	var siblingLI = aSibling === null ? null : aSibling.sectionLI();
+	
+	if (oldParent !== null) {
+		oldParent.removeChild(aChild);
+	}
+
+	if (firstChild === aSibling) this._firstChild = aChild;
+	if (aSibling === null) this._lastChild = aChild;
+	
+	if (prev !== null) prev._nextSibling = aChild;
+	aChild._previousSibling = prev;
+	aChild._nextSibling = next;
+	if (next !== null) next._previousSibling = aChild;
+
+	aChild._parent = this;
+		
+	if (siblingLI !== null) {
+		childrenUL.appendChild(childLI);
+	} else {
+		childrenUL.insertBefore(childLI, siblingLI);
+	}
+}
+
+Section.prototype.isRoot = function() {
+	return this._parent === null;
+}
+
+Section.prototype.treeOrderNext = function () {
+	if (this._firstChild !== null) return this._firstChild;
+	if (this._nextSibling !== null) return this._nextSibling;
+	
+	var p = this._parent;
+	while (p !== null) {
+		if (p._nextSibling !== null) {
+			return p._nextSibling;
+		}
+		p = p._parent;
+	}
+	
+	return null;
+}
+
+Section.prototype.treeOrderPrevious = function() {
+	var p = null;
+	
+	if (this._previousSibling !== null) {
+		return this._previousSibling.leftmostDescendantOrSelf();
+	} else {
+		p = this._parent;
+		
+		if (p === null || p.isRoot()) {
+			return null;
+		} else {
+			return p;
+		}
+	}
+}
+
+Section.prototype.leftmostDescendantOrSelf = function() {
+	if (this._lastChild !== null) 
+		return this._lastChild.leftmostDescendantOrSelf();
+	return this;
+}
+
+Section.prototype.rightmostDescendantOrSelf = function() {
+	if (this._firstChild !== null)
+		return this._firstChild.rightmostDescendantOrSelf();
+	return this;
+}
+
+Section.prototype.descendants = function() {
+	var end = this.nextSibling();
+	var s = this.treeOrderNext();
+	var descendants = [];
+	
+	while (s !== null && s !== end) {
+		descendants.push(s);
+		s = s.treeOrderNext();
+	}
+		
+	return descendants;
+}
+
+Section.prototype.descendantsWithSelf = function() {
+	return [this].concat(this.descendants());
+}
+
+// ----------------------------------------------------------------
+// Section DOM
+// ----------------------------------------------------------------
+
+Section.prototype.sectionLI = function() {
+	return this._sectionLI;
+}
+
+Section.prototype.sectionContentDIV = function() {
+	return this._sectionLI.firstChild;
+}
+
+Section.prototype.sectionChildrenUL = function(createIfNeeded) {
+	var sectionLI = this._sectionLI;
+	var contentDIV = sectionLI.firstChild;
+	var maybeChildrenUL = sectionLI.lastChild;
+	
+	if (contentDIV !== maybeChildrenUL) {
+		return maybeChildrenUL;
+	} else if (createIfNeeded) {
+		maybeChildrenUL = document.createElement('ul')
+		sectionLI.appendChild(maybeChildrenUL);
+		return maybeChildrenUL;
+	}
+	
+	return null;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+
+
+
+
+
 // ----------------------------------------------------------------
 // Text content
 // ----------------------------------------------------------------
@@ -158,11 +423,11 @@ HTMLElement.prototype.insertSectionChildBefore = function(insertedSection, adjac
 function sectionTagsSPAN(section, createIfNeeded) {
 	var textContentDIV = section.firstChild;
 	var tagsSPAN = textContentDIV.lastChild;
-	if (tagsSPAN != null && tagsSPAN.className == "tags") {
+	if (tagsSPAN != null && tagsSPAN.className == 'tags') {
 		return tagsSPAN;
 	} else if (createIfNeeded) {
-		tagsSPAN = document.createElement("span");
-		tagsSPAN.className = "tags";
+		tagsSPAN = document.createElement('span');
+		tagsSPAN.className = 'tags';
 		textContentDIV.appendChild(tagsSPAN);
 		return tagsSPAN;
 	}
@@ -242,7 +507,7 @@ uniqueIDFactory = function() {
 }();
 		
 var section = function(state) {
-	//var that = document.createElement("li");
+	//var that = document.createElement('li');
 	var that = {};
 	
 	// Init
