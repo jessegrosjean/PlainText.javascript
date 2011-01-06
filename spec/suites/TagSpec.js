@@ -76,34 +76,33 @@ describe('Tag', function() {
 		
 	});
 
-	describe('matching', function() {
+	describe('parsing', function() {
 		var tag;
 		
 		beforeEach(function() {
 			tag = new Tag();
 		});
 		
-		it('should should find one tag with name and empty value in "@tag"', function() {
-			var tags = parseTags('@tag');
+		it('should should find one tag with name = "tag" and empty value in "@tag"', function() {
+			var tags = Tag.parseTags('@tag');
 			expect(tags[0].name()).toEqual('tag');
 			expect(tags[0].value()).toEqual('');
 		});
 
-		it('should should find one tag with name and value in "@tag(my value)"', function() {
-			var tags = parseTags('@tag');
+		it('should should find one tag with name = "tag" and value = "my value" in "@tag(my value)"', function() {
+			var tags = Tag.parseTags('@tag(my value)');
 			expect(tags[0].name()).toEqual('tag');
 			expect(tags[0].value()).toEqual('my value');
 		});
-
-		it('should throw exception if doesnt match /(?:[^\\)]*)/', function() {
-			try {
-				tag.setValue(')');
-				expect(true).toEqual(false);
-			} catch (e) {
-				expect(e.message).toEqual("Invalid tag value");
-			}
+	
+		it('should should find two tags in "some text wiht @atag @tag(my value)"', function() {
+			var tags = Tag.parseTags('some text ending with tags @atag @tag(my value)');
+			expect(tags[0].name()).toEqual('atag');
+			expect(tags[0].value()).toEqual('');
+			expect(tags[1].name()).toEqual('tag');
+			expect(tags[1].value()).toEqual('my value');
 		});
-		
+
 	});
 
 });

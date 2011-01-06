@@ -1,13 +1,29 @@
+var TagRegex = /(?:^|\s)@(\w*)(?:\(([^\)]+)\))?/g; // Find individual tags and values within valid range.
 var TagValidNameRegex = /\w*/;
 var TagValidValueRegex = /(?:[^\\)]*)/;
 
-var Tag = function() {
+var Tag = function(name, value) {
 	this._section = null;
-	this._name = '';
-	this._value = '';
 	this._previousTag = null;
 	this._nextTag = null;
+	this.setName(name || '');
+	this.setValue(value || '');
 };
+
+// ----------------------------------------------------------------
+// Class Functions
+// ----------------------------------------------------------------
+
+Tag.parseTags = function(aString) {
+	var tags = [];
+	var match;
+	
+	while (match = TagRegex.exec(aString)) {
+		tags.push(new Tag(match[1], match[2]));
+	}
+	
+	return tags;
+}
 
 // ----------------------------------------------------------------
 // Attributes
