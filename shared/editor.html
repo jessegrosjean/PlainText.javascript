@@ -22,19 +22,22 @@
 <body>
 
 <pre id="editor"></pre>
-    
-<script src="ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="ace/src/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
-<script src="ace/src/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+	
+<script src="ace/src/ace-uncompressed.js" type="text/javascript" charset="utf-8"></script>
+
 <script>
 var editor;
 window.onload = function() {
-    editor = ace.edit("editor");
+	editor = ace.edit("editor");
 	editor.setHighlightActiveLine(false);
-	editor.renderer.setShowGutter(false);
 	editor.getSession().setUseWrapMode(true);
+	
+	editor.renderer.setShowGutter(false);
+	editor.renderer.setShowPrintMargin(false);
+	editor.renderer.setHScrollBarAlwaysVisible(false);
 };
 </script>
-
+	
+	
 </body>
 </html>

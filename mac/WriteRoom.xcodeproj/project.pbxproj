@@ -10,6 +10,7 @@
 		8807DDB4132BFFF9003B85C9 /* WriteRoom.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8807DDB3132BFFF9003B85C9 /* WriteRoom.icns */; };
 		8807DDB7132C0262003B85C9 /* DocumentWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8807DDB6132C0262003B85C9 /* DocumentWebView.m */; };
 		8807DDC1132C0750003B85C9 /* editor.html in Resources */ = {isa = PBXBuildFile; fileRef = 8807DDC0132C0750003B85C9 /* editor.html */; };
+		8807DDC3132C2756003B85C9 /* writeroom_theme.js in Sources */ = {isa = PBXBuildFile; fileRef = 8807DDC2132C2755003B85C9 /* writeroom_theme.js */; };
 		8878D950132BD21500D32914 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8878D94F132BD21500D32914 /* Cocoa.framework */; };
 		8878D95A132BD21500D32914 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8878D958132BD21500D32914 /* InfoPlist.strings */; };
 		8878D95D132BD21500D32914 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878D95C132BD21500D32914 /* main.m */; };
@@ -39,6 +40,7 @@
 		8807DDB5132C0262003B85C9 /* DocumentWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentWebView.h; sourceTree = "<group>"; };
 		8807DDB6132C0262003B85C9 /* DocumentWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentWebView.m; sourceTree = "<group>"; };
 		8807DDC0132C0750003B85C9 /* editor.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = editor.html; path = ../../shared/editor.html; sourceTree = "<group>"; };
+		8807DDC2132C2755003B85C9 /* writeroom_theme.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = writeroom_theme.js; sourceTree = "<group>"; };
 		8878D94B132BD21500D32914 /* WriteRoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WriteRoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8878D94F132BD21500D32914 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8878D952132BD21500D32914 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -142,6 +144,7 @@
 			children = (
 				8878D995132BD3D200D32914 /* ace */,
 				8807DDC0132C0750003B85C9 /* editor.html */,
+				8807DDC2132C2755003B85C9 /* writeroom_theme.js */,
 				8878D957132BD21500D32914 /* WriteRoom-Info.plist */,
 				8878D958132BD21500D32914 /* InfoPlist.strings */,
 				8807DDB3132BFFF9003B85C9 /* WriteRoom.icns */,
@@ -286,6 +289,7 @@
 				8878D95D132BD21500D32914 /* main.m in Sources */,
 				8878D963132BD21500D32914 /* Document.m in Sources */,
 				8807DDB7132C0262003B85C9 /* DocumentWebView.m in Sources */,
+				8807DDC3132C2756003B85C9 /* writeroom_theme.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

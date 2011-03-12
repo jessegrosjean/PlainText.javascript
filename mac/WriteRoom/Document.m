@@ -68,7 +68,7 @@
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
 	if (lastReadString) {
-		[webView.jsDocument callWebScriptMethod:@"setValue" withArguments:[NSArray arrayWithObject:lastReadString]];
+		self.textContent = lastReadString;
 	} else {
 		lastReadString = @"";
 	}
@@ -109,11 +109,9 @@
 }
 
 - (IBAction)bigger:(id)sender {
-	
 }
 
 - (IBAction)smaller:(id)sender {
-	
 }
 
 - (IBAction)toggleFullSingleScreen:(id)sender {
@@ -166,7 +164,33 @@
 }
 
 #pragma mark -
+#pragma mark Printing
+
+- (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)settings error:(NSError **)error {
+	NSPrintInfo *printInfo = [self printInfo];
+	[printInfo setVerticallyCentered:NO];
+	[[printInfo dictionary] setValue:[NSNumber numberWithBool:YES] forKey:NSPrintHeaderAndFooter];
+	[[printInfo dictionary] addEntriesFromDictionary:settings];
+	
+	NSTextView *printView = [[[NSTextView alloc] initWithFrame:[printInfo imageablePageBounds]] autorelease];
+	[printView setRichText:NO];
+	[[[printView textStorage] mutableString] appendString:self.textContent];
+	
+    NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
+	[printOperation setJobTitle:[self displayName]];
+	return printOperation;
+}
+
+#pragma mark -
 #pragma mark Read / Write
+
+- (NSString *)textContent {
+	return [webView.jsDocument callWebScriptMethod:@"getValue" withArguments:[NSArray array]];
+}
+
+- (void)setTextContent:(NSString *)textContent {
+	[webView.jsDocument callWebScriptMethod:@"setValue" withArguments:[NSArray arrayWithObject:textContent]];
+}
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
 	[lastReadString release];
@@ -176,6 +200,8 @@
 	}
 	
 	if (lastReadString) {
+		self.textContent = lastReadString;
+		
 		NSAppleEventDescriptor *appleEventDescriptor = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
 		NSAppleEventDescriptor *keyAEPropDataDescriptor = nil;
 		BOOL isKeyAEPropData = NO;
@@ -233,7 +259,7 @@
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)outError {
 	[lastReadString release];
-	lastReadString = [[webView.jsDocument callWebScriptMethod:@"getValue" withArguments:[NSArray array]] retain];
+	lastReadString = [self.textContent retain];
 	return [lastReadString writeToURL:absoluteURL atomically:YES encoding:encoding error:outError];
 }
 

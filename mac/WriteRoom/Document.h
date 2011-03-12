@@ -28,4 +28,6 @@
 - (IBAction)toggleFullSingleScreen:(id)sender;
 - (IBAction)toggleFullAllScreens:(id)sender;
 
+@property(nonatomic, retain) NSString *textContent;
+
 @end
