@@ -77,6 +77,31 @@
 }
 
 #pragma mark -
+#pragma mark Actions
+
+- (IBAction)toggleFullScreenMode:(id)sender {
+	if ([webView isInFullScreenMode]) {
+		[webView exitFullScreenModeWithOptions:nil];
+	} else {
+		[webView enterFullScreenMode:[NSScreen mainScreen] withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
+																		   [NSNumber numberWithBool:YES], NSFullScreenModeAllScreens,
+																		   [NSNumber numberWithInteger:NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions, nil]];
+	}
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)item {
+    if ([item action] == @selector(toggleFullScreenMode:)) {
+		if ([webView isInFullScreenMode]) {
+			[item setTitle:NSLocalizedString(@"Exit Full Screen", nil)];
+		} else {
+			[item setTitle:NSLocalizedString(@"Enter Full Screen", nil)];
+		}
+		return YES;
+	}	
+	return NO;
+}
+
+#pragma mark -
 #pragma mark Read / Write
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {

@@ -205,6 +205,9 @@
 /* Begin PBXProject section */
 		8878D942132BD21500D32914 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Hog Bay Software";
+			};
 			buildConfigurationList = 8878D945132BD21500D32914 /* Build configuration list for PBXProject "WriteRoom" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
