@@ -24,6 +24,7 @@
 - (id)init {
     self = [super init];
     encoding = NSUTF8StringEncoding;
+	[self setUndoManager:nil];
     return self;
 }
 
@@ -68,6 +69,8 @@
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
 	if (lastReadString) {
 		[webView.jsDocument callWebScriptMethod:@"setValue" withArguments:[NSArray arrayWithObject:lastReadString]];
+	} else {
+		lastReadString = @"";
 	}
 	[[webView window] setAlphaValue:1.0];
 	[[webView window] makeKeyAndOrderFront:nil];
@@ -75,6 +78,15 @@
 
 #pragma mark -
 #pragma mark Actions
+
+- (BOOL)isDocumentEdited {
+	NSString *current = [webView.jsDocument callWebScriptMethod:@"getValue" withArguments:[NSArray array]];
+	return current != lastReadString && ![lastReadString isEqualToString:current];
+}
+
+- (void)updateChangeCount:(NSDocumentChangeType)change {
+	[super updateChangeCount:change];
+}
 
 - (IBAction)undo:(id)sender {
 	[webView.jsUndoManager callWebScriptMethod:@"undo" withArguments:[NSArray array]];

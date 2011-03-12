@@ -34,37 +34,45 @@
 #pragma mark -
 #pragma mark Attributes
 
+- (id)nilIfIsWebUndefined:(id)anObject {
+	if ([anObject isKindOfClass:[WebUndefined class]]) {
+		return nil;
+	} else {
+		return anObject;
+	}
+}
+
 - (WebScriptObject *)jsDocument {
 	if (!jsDocument) {
-		jsDocument = [[self.jsSession callWebScriptMethod:@"getDocument" withArguments:[NSArray array]] retain];
+		jsDocument = [[self nilIfIsWebUndefined:[self.jsSession callWebScriptMethod:@"getDocument" withArguments:[NSArray array]]] retain];
 	}
 	return jsDocument;
 }
 
 - (WebScriptObject *)jsSession {
 	if (!jsSession) {
-		jsSession = [[self.jsEditor callWebScriptMethod:@"getSession" withArguments:[NSArray array]] retain];
+		jsSession = [[self nilIfIsWebUndefined:[self.jsEditor callWebScriptMethod:@"getSession" withArguments:[NSArray array]]] retain];
 	}
 	return jsSession;
 }
 
 - (WebScriptObject *)jsUndoManager {
 	if (!jsUndoManager) {
-		jsUndoManager = [[self.jsSession callWebScriptMethod:@"getUndoManager" withArguments:[NSArray array]] retain];
+		jsUndoManager = [[self nilIfIsWebUndefined:[self.jsSession callWebScriptMethod:@"getUndoManager" withArguments:[NSArray array]]] retain];
 	}
 	return jsUndoManager;
 }
 
 - (WebScriptObject *)jsEditor {
 	if (!jsEditor) {
-		jsEditor = [[[self windowScriptObject] evaluateWebScript:@"editor"] retain];
+		jsEditor = [[self nilIfIsWebUndefined:[[self windowScriptObject] evaluateWebScript:@"editor"]] retain];
 	}
 	return jsEditor;
 }
 
 - (WebScriptObject *)jsSelection {
 	if (!jsSelection) {
-		jsSelection = [[self.jsEditor callWebScriptMethod:@"getSelection" withArguments:[NSArray array]] retain];
+		jsSelection = [[self nilIfIsWebUndefined:[self.jsEditor callWebScriptMethod:@"getSelection" withArguments:[NSArray array]]] retain];
 	}
 	return jsSelection;
 }
