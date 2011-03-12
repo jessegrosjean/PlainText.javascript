@@ -84,26 +84,47 @@
 	[webView.jsUndoManager callWebScriptMethod:@"redo" withArguments:[NSArray array]];
 }
 
-- (IBAction)toggleFullScreenMode:(id)sender {
+- (IBAction)toggleFullSingleScreen:(id)sender {
 	if ([webView isInFullScreenMode]) {
 		[webView exitFullScreenModeWithOptions:nil];
 	} else {
-		[webView enterFullScreenMode:[NSScreen mainScreen] withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
-																		   [NSNumber numberWithBool:YES], NSFullScreenModeAllScreens,
-																		   [NSNumber numberWithInteger:NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions, nil]];
+		[webView enterFullScreenMode:[NSScreen mainScreen] withOptions:
+		 [NSDictionary dictionaryWithObjectsAndKeys:
+		  [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
+		  [NSNumber numberWithInteger:NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions, nil]];
+	}
+}
+
+- (IBAction)toggleFullAllScreens:(id)sender {
+	if ([webView isInFullScreenMode]) {
+		[webView exitFullScreenModeWithOptions:nil];
+	} else {
+		[webView enterFullScreenMode:[NSScreen mainScreen] withOptions:
+		 [NSDictionary dictionaryWithObjectsAndKeys:
+		  [NSNumber numberWithBool:YES], NSFullScreenModeAllScreens,
+		  [NSNumber numberWithInteger:NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions, nil]];
 	}
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
-    if ([item action] == @selector(undo:)) {
+	SEL action = [item action];
+	
+    if (action == @selector(undo:)) {
 		return [[webView.jsUndoManager callWebScriptMethod:@"hasUndo" withArguments:[NSArray array]] boolValue];
-	} else if ([item action] == @selector(redo:)) {
+	} else if (action == @selector(redo:)) {
 		return [[webView.jsUndoManager callWebScriptMethod:@"hasRedo" withArguments:[NSArray array]] boolValue];
-	} else if ([item action] == @selector(toggleFullScreenMode:)) {
+	} else if (action == @selector(toggleFullSingleScreen:)) {
 		if ([webView isInFullScreenMode]) {
 			[item setTitle:NSLocalizedString(@"Exit Full Screen", nil)];
 		} else {
 			[item setTitle:NSLocalizedString(@"Enter Full Screen", nil)];
+		}
+		return YES;
+	} else if (action == @selector(toggleFullAllScreens:)) {
+		if ([webView isInFullScreenMode]) {
+			[item setTitle:NSLocalizedString(@"Exit Full Screen", nil)];
+		} else {
+			[item setTitle:NSLocalizedString(@"Enter Full Screen All", nil)];
 		}
 		return YES;
 	}	

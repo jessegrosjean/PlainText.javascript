@@ -9,10 +9,14 @@
 
 @interface DocumentWebView : WebView {
 	WebScriptObject *jsDocument;
+	WebScriptObject *jsSession;
 	WebScriptObject *jsUndoManager;
+	WebScriptObject *jsEditor;
 }
 
 @property(nonatomic, readonly) WebScriptObject *jsDocument;
+@property(nonatomic, readonly) WebScriptObject *jsSession;
 @property(nonatomic, readonly) WebScriptObject *jsUndoManager;
+@property(nonatomic, readonly) WebScriptObject *jsEditor;
 
 @end

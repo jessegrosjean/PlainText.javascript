@@ -19,4 +19,8 @@
 	NSStringEncoding encoding;
 	NSString *lastReadString;
 }
+
+- (IBAction)toggleFullSingleScreen:(id)sender;
+- (IBAction)toggleFullAllScreens:(id)sender;
+
 @end
