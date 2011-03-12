@@ -27,6 +27,7 @@
 	[jsSession release];
 	[jsUndoManager release];
 	[jsEditor release];
+	[jsSelection release];
     [super dealloc];
 }
 
@@ -59,6 +60,13 @@
 		jsEditor = [[[self windowScriptObject] evaluateWebScript:@"editor"] retain];
 	}
 	return jsEditor;
+}
+
+- (WebScriptObject *)jsSelection {
+	if (!jsSelection) {
+		jsSelection = [[self.jsEditor callWebScriptMethod:@"getSelection" withArguments:[NSArray array]] retain];
+	}
+	return jsSelection;
 }
 
 #pragma mark -

@@ -12,11 +12,13 @@
 	WebScriptObject *jsSession;
 	WebScriptObject *jsUndoManager;
 	WebScriptObject *jsEditor;
+	WebScriptObject *jsSelection;
 }
 
 @property(nonatomic, readonly) WebScriptObject *jsDocument;
 @property(nonatomic, readonly) WebScriptObject *jsSession;
 @property(nonatomic, readonly) WebScriptObject *jsUndoManager;
 @property(nonatomic, readonly) WebScriptObject *jsEditor;
+@property(nonatomic, readonly) WebScriptObject *jsSelection;
 
 @end

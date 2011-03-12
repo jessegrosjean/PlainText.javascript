@@ -84,6 +84,26 @@
 	[webView.jsUndoManager callWebScriptMethod:@"redo" withArguments:[NSArray array]];
 }
 
+- (IBAction)strong:(id)sender {
+	[webView.jsEditor callWebScriptMethod:@"strong" withArguments:[NSArray array]];
+}
+
+- (IBAction)em:(id)sender {
+	[webView.jsEditor callWebScriptMethod:@"em" withArguments:[NSArray array]];
+}
+
+- (IBAction)underline:(id)sender {	
+	[webView.jsEditor callWebScriptMethod:@"underline" withArguments:[NSArray array]];
+}
+
+- (IBAction)bigger:(id)sender {
+	
+}
+
+- (IBAction)smaller:(id)sender {
+	
+}
+
 - (IBAction)toggleFullSingleScreen:(id)sender {
 	if ([webView isInFullScreenMode]) {
 		[webView exitFullScreenModeWithOptions:nil];
@@ -113,6 +133,8 @@
 		return [[webView.jsUndoManager callWebScriptMethod:@"hasUndo" withArguments:[NSArray array]] boolValue];
 	} else if (action == @selector(redo:)) {
 		return [[webView.jsUndoManager callWebScriptMethod:@"hasRedo" withArguments:[NSArray array]] boolValue];
+	} else if (action == @selector(strong:) || action == @selector(em:) || action == @selector(underline:)) {
+		return ![[webView.jsSelection callWebScriptMethod:@"isEmpty" withArguments:[NSArray array]] boolValue];
 	} else if (action == @selector(toggleFullSingleScreen:)) {
 		if ([webView isInFullScreenMode]) {
 			[item setTitle:NSLocalizedString(@"Exit Full Screen", nil)];
@@ -128,7 +150,7 @@
 		}
 		return YES;
 	}	
-	return NO;
+	return YES;
 }
 
 #pragma mark -
