@@ -8,6 +8,8 @@
 
 #import "Document.h"
 #import "ODBEditorSuite.h"
+#import "DocumentWebView.h"
+
 
 @interface Document ()
 - (void)sendClosedEventToExternalDocument;
@@ -33,7 +35,6 @@
 	[externalSender release];
 	[externalToken release];
 	[lastReadString release];
-	[jsDocument release];
 	[webView setFrameLoadDelegate:nil];
 	[super dealloc];
 }
@@ -58,26 +59,30 @@
 	[[webView window] setAlphaValue:0.0];
 	[webView setFrameLoadDelegate:self];
 	[webView setMaintainsBackForwardList:NO];
-	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] pathForResource:@"ace" ofType:@""] stringByAppendingPathComponent:@"editor.html"]]]];
+	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"editor" ofType:@"html"]]]];
 }
 
 #pragma mark -
 #pragma mark WebView Frame Load Delegate
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
-	[jsDocument autorelease];
-	jsDocument = [[[webView windowScriptObject] evaluateWebScript:@"editor.session.getDocument()"] retain];
-
 	if (lastReadString) {
-		[jsDocument callWebScriptMethod:@"setValue" withArguments:[NSArray arrayWithObject:lastReadString]];
+		[webView.jsDocument callWebScriptMethod:@"setValue" withArguments:[NSArray arrayWithObject:lastReadString]];
 	}
-
 	[[webView window] setAlphaValue:1.0];
 	[[webView window] makeKeyAndOrderFront:nil];
 }
 
 #pragma mark -
 #pragma mark Actions
+
+- (IBAction)undo:(id)sender {
+	[webView.jsUndoManager callWebScriptMethod:@"undo" withArguments:[NSArray array]];
+}
+
+- (IBAction)redo:(id)sender {
+	[webView.jsUndoManager callWebScriptMethod:@"redo" withArguments:[NSArray array]];
+}
 
 - (IBAction)toggleFullScreenMode:(id)sender {
 	if ([webView isInFullScreenMode]) {
@@ -90,7 +95,11 @@
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
-    if ([item action] == @selector(toggleFullScreenMode:)) {
+    if ([item action] == @selector(undo:)) {
+		return [[webView.jsUndoManager callWebScriptMethod:@"hasUndo" withArguments:[NSArray array]] boolValue];
+	} else if ([item action] == @selector(redo:)) {
+		return [[webView.jsUndoManager callWebScriptMethod:@"hasRedo" withArguments:[NSArray array]] boolValue];
+	} else if ([item action] == @selector(toggleFullScreenMode:)) {
 		if ([webView isInFullScreenMode]) {
 			[item setTitle:NSLocalizedString(@"Exit Full Screen", nil)];
 		} else {
@@ -169,7 +178,7 @@
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)outError {
 	[lastReadString release];
-	lastReadString = [[jsDocument callWebScriptMethod:@"getValue" withArguments:[NSArray array]] retain];
+	lastReadString = [[webView.jsDocument callWebScriptMethod:@"getValue" withArguments:[NSArray array]] retain];
 	return [lastReadString writeToURL:absoluteURL atomically:YES encoding:encoding error:outError];
 }
 

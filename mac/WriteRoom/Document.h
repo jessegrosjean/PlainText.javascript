@@ -7,8 +7,10 @@
 //
 
 
+@class DocumentWebView;
+
 @interface Document : NSDocument {
-	IBOutlet WebView *webView;
+	IBOutlet DocumentWebView *webView;
 
 	BOOL fromExternal;
 	NSString *externalDisplayName;
@@ -16,6 +18,5 @@
 	NSAppleEventDescriptor *externalToken;
 	NSStringEncoding encoding;
 	NSString *lastReadString;
-	WebScriptObject *jsDocument;
 }
 @end
