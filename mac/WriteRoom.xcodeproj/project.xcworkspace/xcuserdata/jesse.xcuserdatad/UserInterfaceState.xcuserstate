@@ -123,7 +123,7 @@
 		<string>IDEWorkspaceTabController_D057BC38-F492-429B-BA0C-E6E4DF6A6064</string>
 		<string>IDEActiveWorkspaceTabController</string>
 		<string>IDEWorkspaceWindowControllerUniqueIdentifier</string>
-		<string>{{772, 140}, {1917, 1013}}</string>
+		<string>{{527, -3}, {1917, 1013}}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -902,7 +902,7 @@
 				<integer>92</integer>
 			</dict>
 		</dict>
-		<string>Document.m</string>
+		<string>DocumentWebView.m</string>
 		<dict>
 			<key>$classes</key>
 			<array>
@@ -962,7 +962,7 @@
 				<integer>100</integer>
 			</dict>
 			<key>NS.string</key>
-			<string>file://localhost/Users/jesse/Desktop/stage/PlainText.javascript/mac/WriteRoom/Document.m</string>
+			<string>file://localhost/Users/jesse/Desktop/stage/PlainText.javascript/mac/WriteRoom/DocumentWebView.m</string>
 		</dict>
 		<dict>
 			<key>$classes</key>
@@ -1041,10 +1041,10 @@
 		<string>PrimaryDocumentVisibleCharacterRange</string>
 		<string>HideAllIssues</string>
 		<string>PrimaryDocumentSelectedCharacterRange</string>
-		<real>321721130.35174203</real>
-		<string>{3091, 2986}</string>
-		<string>{4736, 0}</string>
-		<string>-toggleFullScreenMode:</string>
+		<real>321721563.81864202</real>
+		<string>{0, 1424}</string>
+		<string>{442, 0}</string>
+		<string>+initialize</string>
 		<string>Xcode.IDEKit.EditorDocument.SourceCode</string>
 		<dict>
 			<key>$class</key>
@@ -1063,7 +1063,7 @@
 				<integer>114</integer>
 			</dict>
 		</dict>
-		<string>file://localhost/Users/jesse/Desktop/stage/PlainText.javascript/mac/WriteRoom/Document.m</string>
+		<string>file://localhost/Users/jesse/Desktop/stage/PlainText.javascript/mac/WriteRoom/DocumentWebView.m</string>
 		<dict>
 			<key>$classes</key>
 			<array>
@@ -1087,7 +1087,7 @@
 				</dict>
 			</array>
 		</dict>
-		<string>{{0, 0}, {1397, 915}}</string>
+		<string>{{0, 0}, {1397, 937}}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -1537,7 +1537,7 @@
 				</dict>
 				<dict>
 					<key>CF$UID</key>
-					<integer>148</integer>
+					<integer>147</integer>
 				</dict>
 				<dict>
 					<key>CF$UID</key>
@@ -2266,7 +2266,7 @@
 		</dict>
 		<string>IDEUtilitiesArea</string>
 		<real>260</real>
-		<string>Document.m</string>
+		<string>DocumentWebView.m</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -9101,8 +9101,8 @@
 				</dict>
 			</array>
 		</dict>
-		<real>321721130.35118699</real>
-		<string>{3091, 2986}</string>
+		<real>321721487.785074</real>
+		<string>{2755, 2388}</string>
 		<string>{4736, 0}</string>
 		<dict>
 			<key>$class</key>
@@ -9762,9 +9762,9 @@
 				</dict>
 			</array>
 		</dict>
-		<real>321720659.85162503</real>
-		<string>{0, 891}</string>
-		<string>{871, 0}</string>
+		<real>321721563.81795001</real>
+		<string>{0, 1424}</string>
+		<string>{442, 0}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -11796,7 +11796,7 @@
 				<integer>896</integer>
 			</dict>
 			<key>NS.time</key>
-			<real>321720978.70766801</real>
+			<real>321721551.43482</real>
 		</dict>
 		<dict>
 			<key>$classes</key>
@@ -11807,7 +11807,7 @@
 			<key>$classname</key>
 			<string>NSDate</string>
 		</dict>
-		<string>Today at 10:56 AM</string>
+		<string>Today at 11:05 AM</string>
 		<integer>106</integer>
 		<dict>
 			<key>$class</key>
@@ -12017,7 +12017,7 @@
 				<integer>913</integer>
 			</dict>
 		</dict>
-		<string>file://localhost/Users/jesse/Desktop/stage/PlainText.javascript/mac/WriteRoom/Document.m</string>
+		<string>file://localhost/Users/jesse/Desktop/stage/PlainText.javascript/mac/WriteRoom/DocumentWebView.m</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -12035,7 +12035,7 @@
 				<integer>915</integer>
 			</dict>
 		</dict>
-		<string>file://localhost/Users/jesse/Desktop/stage/PlainText.javascript/mac/WriteRoom/DocumentWebView.m</string>
+		<string>file://localhost/Users/jesse/Desktop/stage/PlainText.javascript/mac/WriteRoom/Document.m</string>
 		<dict>
 			<key>$class</key>
 			<dict>

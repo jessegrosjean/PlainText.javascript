@@ -12,6 +12,16 @@
 @implementation DocumentWebView
 
 #pragma mark -
+#pragma mark initialize
+
++ (void)initialize {
+	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+															 [NSNumber numberWithBool:YES], @"WebKitDeveloperExtras",
+															 nil]];
+}
+
+
+#pragma mark -
 #pragma mark Init
 
 - (id)init {
