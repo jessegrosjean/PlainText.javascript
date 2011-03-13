@@ -44,6 +44,7 @@
 	if (fromExternal == YES) {
 		[self sendClosedEventToExternalDocument];
 	}	
+
 	[super close];
 }
 
@@ -114,26 +115,64 @@
 - (IBAction)smaller:(id)sender {
 }
 
-- (IBAction)toggleFullSingleScreen:(id)sender {
+- (NSUInteger)countOfWindowsInFullScreenMode {
+	NSInteger result = 0;
+	
+	for (NSWindow *each in [NSApp windows]) {
+		if ([[each contentView] isInFullScreenMode]) {
+			result++;
+		}
+	}
+	
+	return result;
+}
+
+- (void)toggleFullScreenMode:(BOOL)allScreens {
+	CGFloat red, green, blue = 0;
+	CGDisplayFadeReservationToken reservationToken;
+
+	[[[NSColor blackColor] colorUsingColorSpaceName:NSDeviceRGBColorSpace] getRed:&red green:&green blue:&blue alpha:nil];
+
 	if ([webView isInFullScreenMode]) {
+		BOOL shouldFade = [self countOfWindowsInFullScreenMode] == 1;
+
+		if (shouldFade) {
+			CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &reservationToken);
+			CGDisplayFade(reservationToken, 0.3, kCGDisplayBlendNormal, kCGDisplayBlendSolidColor, red, green, blue, true);
+		}
+		
 		[webView exitFullScreenModeWithOptions:nil];
+		
+		if (shouldFade) {
+			CGDisplayFade(reservationToken, 0.3, kCGDisplayBlendSolidColor, kCGDisplayBlendNormal, red, green, blue, false);
+			CGReleaseDisplayFadeReservation(reservationToken);
+		}
 	} else {
+		BOOL shouldFade = [self countOfWindowsInFullScreenMode] == 0;
+
+		if (shouldFade) {
+			CGAcquireDisplayFadeReservation(kCGMaxDisplayReservationInterval, &reservationToken);
+			CGDisplayFade(reservationToken, 0.3, kCGDisplayBlendNormal, kCGDisplayBlendSolidColor, red, green, blue, true);
+		}
+		
 		[webView enterFullScreenMode:[NSScreen mainScreen] withOptions:
 		 [NSDictionary dictionaryWithObjectsAndKeys:
-		  [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
+		  [NSNumber numberWithBool:allScreens], NSFullScreenModeAllScreens,
 		  [NSNumber numberWithInteger:NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions, nil]];
+
+		if (shouldFade) {
+			CGDisplayFade(reservationToken, 0.3, kCGDisplayBlendSolidColor, kCGDisplayBlendNormal, red, green, blue, false);
+			CGReleaseDisplayFadeReservation(reservationToken);
+		}
 	}
 }
 
+- (IBAction)toggleFullSingleScreen:(id)sender {
+	[self toggleFullScreenMode:NO];
+}
+
 - (IBAction)toggleFullAllScreens:(id)sender {
-	if ([webView isInFullScreenMode]) {
-		[webView exitFullScreenModeWithOptions:nil];
-	} else {
-		[webView enterFullScreenMode:[NSScreen mainScreen] withOptions:
-		 [NSDictionary dictionaryWithObjectsAndKeys:
-		  [NSNumber numberWithBool:YES], NSFullScreenModeAllScreens,
-		  [NSNumber numberWithInteger:NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions, nil]];
-	}
+	[self toggleFullScreenMode:YES];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
