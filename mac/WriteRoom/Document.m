@@ -60,7 +60,7 @@
 	[[webView window] setAlphaValue:0.0];
 	[webView setFrameLoadDelegate:self];
 	[webView setMaintainsBackForwardList:NO];
-	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"editor" ofType:@"html"]]]];
+	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] pathForResource:@"writeroom" ofType:@""] stringByAppendingPathComponent:@"editor.html"]]]];
 }
 
 #pragma mark -

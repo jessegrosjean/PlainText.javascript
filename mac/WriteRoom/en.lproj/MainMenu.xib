@@ -641,7 +641,7 @@
 							<string key="NSTitle">Window</string>
 							<object class="NSMutableArray" key="NSMenuItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSMenuItem" id="161242904">
+								<object class="NSMenuItem" id="538879434">
 									<reference key="NSMenu" ref="835318025"/>
 									<string key="NSTitle">Toggle Full Screen Mode</string>
 									<string type="base64-UTF8" key="NSKeyEquiv">DQ</string>
@@ -650,7 +650,7 @@
 									<reference key="NSOnImage" ref="1033313550"/>
 									<reference key="NSMixedImage" ref="310636482"/>
 								</object>
-								<object class="NSMenuItem" id="354364988">
+								<object class="NSMenuItem" id="242582810">
 									<reference key="NSMenu" ref="835318025"/>
 									<bool key="NSIsAlternate">YES</bool>
 									<string key="NSTitle">Toggle Full Screen Mode</string>
@@ -1029,7 +1029,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleFullAllScreens:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="354364988"/>
+						<reference key="destination" ref="242582810"/>
 					</object>
 					<int key="connectionID">534</int>
 				</object>
@@ -1037,7 +1037,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleFullSingleScreen:</string>
 						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="161242904"/>
+						<reference key="destination" ref="538879434"/>
 					</object>
 					<int key="connectionID">535</int>
 				</object>
@@ -1048,14 +1048,6 @@
 						<reference key="destination" ref="481459203"/>
 					</object>
 					<int key="connectionID">536</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">bigger:</string>
-						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="410574898"/>
-					</object>
-					<int key="connectionID">538</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -1072,6 +1064,14 @@
 						<reference key="destination" ref="275470842"/>
 					</object>
 					<int key="connectionID">540</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">bigger:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="410574898"/>
+					</object>
+					<int key="connectionID">542</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1447,8 +1447,8 @@
 							<reference ref="625202149"/>
 							<reference ref="575023229"/>
 							<reference ref="1011231497"/>
-							<reference ref="354364988"/>
-							<reference ref="161242904"/>
+							<reference ref="242582810"/>
+							<reference ref="538879434"/>
 						</object>
 						<reference key="parent" ref="713487014"/>
 					</object>
@@ -1589,12 +1589,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">530</int>
-						<reference key="object" ref="354364988"/>
+						<reference key="object" ref="242582810"/>
 						<reference key="parent" ref="835318025"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">532</int>
-						<reference key="object" ref="161242904"/>
+						<reference key="object" ref="538879434"/>
 						<reference key="parent" ref="835318025"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -1966,7 +1966,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">540</int>
+			<int key="maxID">542</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
