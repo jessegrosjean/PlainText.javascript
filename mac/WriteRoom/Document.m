@@ -165,6 +165,10 @@
 			CGReleaseDisplayFadeReservation(reservationToken);
 		}
 	}
+	
+	// Not sure why, but if don't do this then can't type after enter/exit of fullscreen mode.
+	[webView.jsEditor callWebScriptMethod:@"blur" withArguments:[NSArray array]];
+	[webView.jsEditor callWebScriptMethod:@"focus" withArguments:[NSArray array]];
 }
 
 - (IBAction)toggleFullSingleScreen:(id)sender {
