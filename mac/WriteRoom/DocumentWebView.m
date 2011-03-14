@@ -38,6 +38,7 @@
 	[jsUndoManager release];
 	[jsEditor release];
 	[jsSelection release];
+	[jsRenderer release];
     [super dealloc];
 }
 
@@ -85,6 +86,13 @@
 		jsSelection = [[self nilIfIsWebUndefined:[self.jsEditor callWebScriptMethod:@"getSelection" withArguments:[NSArray array]]] retain];
 	}
 	return jsSelection;
+}
+
+- (WebScriptObject *)jsRenderer {
+	if (!jsRenderer) {
+		jsRenderer = [[self nilIfIsWebUndefined:[self.jsEditor valueForKey:@"renderer"]] retain];
+	}
+	return jsRenderer;
 }
 
 #pragma mark -

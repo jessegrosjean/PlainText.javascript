@@ -73,6 +73,7 @@
 	} else {
 		lastReadString = @"";
 	}
+		
 	[[webView window] setAlphaValue:1.0];
 	[[webView window] makeKeyAndOrderFront:nil];
 }
@@ -142,6 +143,7 @@
 		}
 		
 		[webView exitFullScreenModeWithOptions:nil];
+		//[webView.jsRenderer callWebScriptMethod:@"setPadding" withArguments:[NSArray arrayWithObject:@"4"]];
 		
 		if (shouldFade) {
 			CGDisplayFade(reservationToken, 0.3, kCGDisplayBlendSolidColor, kCGDisplayBlendNormal, red, green, blue, false);
@@ -159,6 +161,11 @@
 		 [NSDictionary dictionaryWithObjectsAndKeys:
 		  [NSNumber numberWithBool:allScreens], NSFullScreenModeAllScreens,
 		  [NSNumber numberWithInteger:NSApplicationPresentationHideDock | NSApplicationPresentationAutoHideMenuBar], NSFullScreenModeApplicationPresentationOptions, nil]];
+		
+		//CGFloat characterWidth = [[webView.jsRenderer valueForKey:@"characterWidth"] floatValue];
+		//CGFloat screenWidth = [[NSScreen mainScreen] frame].size.width;
+		//CGFloat documentWidth = characterWidth * 80;
+		//[webView.jsRenderer callWebScriptMethod:@"setPadding" withArguments:[NSArray arrayWithObject:[NSNumber numberWithFloat:screenWidth - documentWidth]]];
 
 		if (shouldFade) {
 			CGDisplayFade(reservationToken, 0.3, kCGDisplayBlendSolidColor, kCGDisplayBlendNormal, red, green, blue, false);
