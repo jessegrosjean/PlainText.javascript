@@ -13,6 +13,7 @@
 	WebScriptObject *jsUndoManager;
 	WebScriptObject *jsEditor;
 	WebScriptObject *jsSelection;
+	WebScriptObject *jsRenderer;
 }
 
 @property(nonatomic, readonly) WebScriptObject *jsDocument;
@@ -20,5 +21,6 @@
 @property(nonatomic, readonly) WebScriptObject *jsUndoManager;
 @property(nonatomic, readonly) WebScriptObject *jsEditor;
 @property(nonatomic, readonly) WebScriptObject *jsSelection;
+@property(nonatomic, readonly) WebScriptObject *jsRenderer;
 
 @end
