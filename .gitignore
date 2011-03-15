@@ -1,2 +1,4 @@
 win/Writeroom/bin/
 win/Writeroom/obj/
+.project
+.settings

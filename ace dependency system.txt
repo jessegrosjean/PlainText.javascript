@@ -1,0 +1,72 @@
+﻿h1. Ace dependency loading system
+
+h2. Define
+
+<pre>
+function define( module, dependencies, payload );
+function define( module, payload );
+</pre>
+
+module needs to be a _string_, dependencies can be skipped. The payload is saved under "define.modules[module]". define will be added to the window object, so can be called without any object reference.
+
+
+h2. Require
+
+<pre>
+function require( module, [callback] );
+</pre>
+
+module parameter can be an _Array_ or _string_. If module is an array, for each module call lookup, 
+and get the exports/payload. If we have a callback, call it with the the array of exports as arguments. 
+
+In case module is a string, call callback without any parameters and return exports/payload.
+
+
+h2. Lookup
+
+<pre>
+function lookup( moduleName );
+</pre>
+
+module is a _string_. If module is a string, the function finds the string within define.modules, and returns the exports/payload. In case, define is called with a function payload, each payload should have the following signature:
+
+<pre>
+function payload( requireFn, exports, moduleObject );
+</pre>
+
+moduleObject is going to be:
+
+<pre>
+{ id: modulename, uri: '' }
+</pre>
+
+the payload should return all objects needed to be exposed under the exports object. It is basically used as an 'out' parameter.
+
+Also, once lookup has been called succesfully for a certain module, the define.module[modulename] object will no longer refer to the original function passed to 'define', rather will contain the 'exports' object as returned by calling the original payload.
+
+In case the payload passed to 'define' was not a function, 
+lookup will just return the passed payload without doing any operations on it.
+
+h2. How to work with the system
+
+Basically, all the requisite files that we'll put in will have to be added to the html page using the standard script tags. After that, if we use Ace's dependency system, we'll need to surround each file with the following:
+
+<pre>
+define("writeroom/_modulename_", function( require, exports, module ) {
+
+...
+
+exports._object1_ = _localObject_;
+
+});
+</pre>
+
+which will allow us to use
+
+<pre>
+
+var obj1 = require("writeroom/_modulename_").object1;
+
+</pre>
+
+within any of our source files.

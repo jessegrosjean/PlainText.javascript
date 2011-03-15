@@ -24,14 +24,23 @@
 <pre id="editor"></pre>
 	
 <script src="../ace/src/ace-uncompressed.js" type="text/javascript" charset="utf-8"></script>
+<script src="writeroom.js"></script>
+<script src="markdown_highlight_rules.js"></script>
+<script src="mode_markdown.js"></script>
+<script src="../ace/src/mode-javascript.js"></script>
 
 <script>
 var editor;
+
 window.onload = function() {
+	var MarkdownMode = require("writeroom/mode_markdown").Mode;
+	
+	
 	editor = ace.edit("editor");
 	editor.setHighlightActiveLine(false);
 	editor.getSession().setUseWrapMode(true);
-	
+	//editor.getSession().setMode(new MarkdownMode());
+	editor.getSession().setMode(new JavascriptMode());
 	editor.renderer.setShowGutter(false);
 	editor.renderer.setShowPrintMargin(false);
 	editor.renderer.setHScrollBarAlwaysVisible(false);
