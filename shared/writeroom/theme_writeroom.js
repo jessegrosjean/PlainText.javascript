@@ -114,7 +114,6 @@ define("writeroom/theme", function(require, exports, module) {
 \
 .ace-tmwr .ace_line .ace_header {\
     color: rgb(255,255,100);\
-    font-size: large;\
     font-weight: bold;\
 }\
 .ace-tmwr .ace_line .ace_emphasis {\

@@ -28,41 +28,24 @@ var MarkdownHighlightRules = function()
             {
                 token : "keyword", 
                 regex : "_(?=[^_]+_)",
-                next  : "emInner",
-            },
-            {
-                token : "keyword",
-                regex : "\\s@(?=\\w|\\d)",
-                next  : "tag"
+                next  : "emInner"
             },
             {
                 token : "keyword", 
                 regex : "\\*\\*(?=[^*]+\\*\\*)", // needs more work
-                next  : "strongInner",
+                next  : "strongInner"
             },
             
             {
                 token : "text",
-                regex : "[^_\\*@\\(]+"
+                regex : "[^_\\*\\(]+"
             }
-        ],
-       "tag": [
-            {
-                token: "tag",
-                regex: "\\w+\\s*=\\s*(?:\\w|\\d)+\\s*$",
-                next : "start"
-            },
-            { 
-                token: "tag",
-                regex: "\\w+\\s*$",
-                next : "start"
-            },
         ],
         "header" : [
             {
                 token : "text",
                 regex : " ",
-                next  : "headerName",
+                next  : "headerName"
             },
             { 
                 token : "invalid",
@@ -113,7 +96,7 @@ var MarkdownHighlightRules = function()
                     regex: ".+",
                     next: "start"
                 }
-        ],
+        ]
     };
 };
 
