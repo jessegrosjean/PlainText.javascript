@@ -5,22 +5,50 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Editor</title>
   <style type="text/css" media="screen">
+	@font-face { font-family: writeroom_base; src: url('DejaVuSansMono.ttf'); }
+	@font-face { font-family: writeroom_bold; src: url('DejaVuSansMono-Bold.ttf'); }
+	@font-face { font-family: writeroom_oblique; src: url('DejaVuSansMono-Oblique.ttf'); }
+	  
     body {
         overflow: hidden;
-        background-color: black;
     }
         
     #editor { 
         margin: 0;
+        margin-top: 100px;
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
+		background-color: rgb(250, 250, 250);
+		font-family: writeroom_base;
     }
+
+	  .ace-tmwr .ace_text-layer {
+		  font-family: writeroom_base;
+	  }
+	  
+	  p.base {
+		  font-family: writeroom_base; /* no .ttf */
+	  }
+	  
+	  p.bold {
+		  font-family: writeroom_bold; /* no .ttf */
+	  }
+
+	  p.oblique {
+		  font-family: writeroom_oblique; /* no .ttf */
+	  }
+	  
+	  
   </style>
 </head>
 <body>
+	
+<p class="base">The quick brown fox jumped over the lazy dog.</p>
+<p class="bold">The quick brown fox jumped over the lazy dog.</p>
+<p class="oblique">The quick brown fox jumped over the lazy dog.</p>
 	
 <pre id="editor"></pre>
 	

@@ -130,8 +130,6 @@
 				8878D962132BD21500D32914 /* Document.m */,
 				8807DDB5132C0262003B85C9 /* DocumentWebView.h */,
 				8807DDB6132C0262003B85C9 /* DocumentWebView.m */,
-				8878D967132BD21600D32914 /* MainMenu.xib */,
-				8878D992132BD3AA00D32914 /* DocumentWindow.xib */,
 				8878D956132BD21500D32914 /* Supporting Files */,
 			);
 			path = WriteRoom;
@@ -142,6 +140,8 @@
 			children = (
 				8878D995132BD3D200D32914 /* ace */,
 				8807DDC6132C4AFE003B85C9 /* writeroom */,
+				8878D967132BD21600D32914 /* MainMenu.xib */,
+				8878D992132BD3AA00D32914 /* DocumentWindow.xib */,
 				8878D957132BD21500D32914 /* WriteRoom-Info.plist */,
 				8878D958132BD21500D32914 /* InfoPlist.strings */,
 				8807DDB3132BFFF9003B85C9 /* WriteRoom.icns */,
