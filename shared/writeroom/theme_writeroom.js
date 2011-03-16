@@ -131,6 +131,10 @@ define("writeroom/theme", function(require, exports, module) {
 	color: white;\
 	text-decoration: underline;\
 }\
+.ace-tmwr .ace_line .ace_weblink {\
+	color: white;\
+	text-decoration: underline;\
+}\
 \
 .ace-tmwr .ace_line .ace_support.ace_function {\
   color: rgb(60, 76, 114);\
