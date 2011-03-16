@@ -7,16 +7,17 @@
   <style type="text/css" media="screen">
     body {
         overflow: hidden;
+        background-color: black;
     }
-    
-	  #editor { 
-		  margin: 0;
-		  position: absolute;
-		  top: 0;
-		  bottom: 0;
-		  left: 0;
-		  right: 0;
-	  }
+        
+    #editor { 
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
   </style>
 </head>
 <body>
@@ -24,23 +25,22 @@
 <pre id="editor"></pre>
 	
 <script src="../ace/src/ace-uncompressed.js" type="text/javascript" charset="utf-8"></script>
-<script src="writeroom.js"></script>
-<script src="markdown_highlight_rules.js"></script>
-<script src="mode_markdown.js"></script>
-<script src="../ace/src/mode-javascript.js"></script>
+<script src="markdown_highlight_rules.js" lang="javascript"></script>
+<script src="markdown.js" lang="javascript"></script>
+<script src="theme_writeroom.js" lang="javascript"></script>
 
 <script>
-var editor;
+var editor, effect;
+
+var MarkdownMode = require("ace/mode/markdown").Mode;
 
 window.onload = function() {
-	var MarkdownMode = require("writeroom/mode_markdown").Mode;
-	
-	
 	editor = ace.edit("editor");
 	editor.setHighlightActiveLine(false);
 	editor.getSession().setUseWrapMode(true);
-	//editor.getSession().setMode(new MarkdownMode());
-	editor.getSession().setMode(new JavascriptMode());
+    editor.getSession().setMode(new MarkdownMode());
+    editor.setTheme("writeroom/theme");
+	
 	editor.renderer.setShowGutter(false);
 	editor.renderer.setShowPrintMargin(false);
 	editor.renderer.setHScrollBarAlwaysVisible(false);
