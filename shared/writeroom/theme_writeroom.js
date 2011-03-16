@@ -127,6 +127,10 @@ define("writeroom/theme", function(require, exports, module) {
     color: rgb(235,100,100);\
     font-style: italic;\
 }\
+.ace-tmwr .ace_line .ace_email {\
+	color: white;\
+	text-decoration: underline;\
+}\
 \
 .ace-tmwr .ace_line .ace_support.ace_function {\
   color: rgb(60, 76, 114);\
