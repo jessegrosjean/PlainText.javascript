@@ -36,8 +36,8 @@ namespace Writeroom
                 return true;
             }
 
-            if ( keyData.HasFlag( Keys.M ) && keyData.HasFlag( Keys.Control ) ) {
-                _browser.StringByEvaluatingJavaScriptFromString( "" );
+            if ( keyData.HasFlag( Keys.S ) && keyData.HasFlag( Keys.Control ) ) {
+                var fileSavior = _browser.StringByEvaluatingJavaScriptFromString("");
             }
             return base.ProcessDialogKey( keyData );
         }

@@ -45,7 +45,6 @@ define("writeroom/theme", function(require, exports, module) {
 #editor {\
     background-color: black;\
     font-size: 16px;\
-    font-weight: bold;\
 }\
 \
 .ace-tmwr .ace_editor.ace_focus {\
@@ -121,7 +120,7 @@ define("writeroom/theme", function(require, exports, module) {
 }\
 .ace-tmwr .ace_line .ace_strong {\
     color: rgb(235,235,80);\
-    font-weight: black;\
+    font-weight: bold;\
 }\
 .ace-tmwr .ace_line .ace_tag {\
     color: rgb(235,100,100);\
