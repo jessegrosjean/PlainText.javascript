@@ -36,6 +36,7 @@
 <script src="theme_writeroom.js" lang="javascript"></script>
 <script src="writeroom.js" lang="javascript"></script>
 <script src="typewriter_session.js" lang="javascript"></script>
+<script src="writeroom_renderer.js" lang="javascript"></script>
 
 <script>
 var editor, effect, layoutManager;
@@ -45,10 +46,11 @@ var MarkdownMode = require("ace/mode/markdown").Mode;
 var LayoutManager = require("writeroom/layout").LayoutManager;
 var UndoManager = require("ace/undomanager").UndoManager;
 var dom = require("pilot/dom");
-var Renderer = require("ace/virtual_renderer").VirtualRenderer;
+var Renderer = require("writeroom/renderer").WrRenderer;
 var TypewriterSession = require("writeroom/typewriter_session").TypewriterSession;
 var EditSession = require("ace/edit_session").EditSession;
 var Event = require("pilot/event");
+
 
 var catalog = require("pilot/plugin_manager").catalog;
 catalog.registerPlugins([ "pilot/index" ]);
