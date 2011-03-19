@@ -82,15 +82,19 @@ window.onload = function() {
     // the returned object.
     editor.env = env;
 
-    editor.getSession().setUseWrapMode(true);
+    doc.setUseWrapMode(true);
+	
 	editor.setHighlightActiveLine(false);
+	
 	
 	editor.renderer.setShowGutter(false);
 	editor.renderer.setShowPrintMargin(false);
 	editor.renderer.setHScrollBarAlwaysVisible(false);
 
 	// Call layout once, and give automatic focus to the editor
+	layoutManager.addTrail(50);	// should be called before centering in startupmode
 	centering(null);
+	layoutManager.keepCurrentLineAtCenter();
 	editor.focus();
 };
 </script>

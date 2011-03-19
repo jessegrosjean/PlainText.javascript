@@ -6,6 +6,7 @@ define("writeroom/layout", function(require, exports, module) {
     
     var LayoutManager = function LayoutManager(editor) {
         this.editor = editor;
+        this.trail = 0;
         
     };
     
@@ -35,15 +36,35 @@ define("writeroom/layout", function(require, exports, module) {
         
         layoutCenter: function layoutCenter(blockWidth) {
         	var _this = this;
+        	var ed = this.editor;
         	return function(e) { 
-        		var rend = _this.editor.renderer;
+        		var rend = ed.renderer;
         		var width = dom.getInnerWidth(rend.container);
         		var charWidth = rend.characterWidth;
         		var innerWidth = charWidth * blockWidth;
         		var remaining = width - innerWidth;
         		rend.setPrintMarginColumn(blockWidth);
         		rend.setPadding(remaining/2);
+        		if( _this.trail > 0 ) {
+	            	var height = dom.getInnerHeight(rend.container);
+	            	var lineHeight = rend.lineHeight;
+	            	ed.getSession().setEmptyTrail((height*_this.trail)/lineHeight);
+	            	rend.$updateScrollBar();
+        		}
         	};
+        },
+        
+        addTrail: function addTrail(percScreen) {
+        	this.trail = percScreen / 100;
+        },
+        
+        keepCurrentLineAtCenter: function keepCurrentLineAtCenter() {
+        	var _this = this;
+        	event.addListener(this.editor.getSession(), "change", function() {
+        		var ed = _this.editor;
+        		var pos = ed.getCursorPosition();
+        		ed.renderer.scrollToLine(pos.row, true);
+        	});
         },
         
         registerOnScroll: function registerOnScroll() {
