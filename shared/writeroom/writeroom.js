@@ -58,11 +58,20 @@ define("writeroom/layout", function(require, exports, module) {
 	            	ed.getSession().setTrailLines((height*_this.trail)/lineHeight);
 	            	rend.$updateScrollBar();
         		}
+        		
+        		if( _this.lead > 0 ) {
+        			rend.setLead(dom.getInnerHeight(rend.container)*_this.lead);
+        		}
         	};
         },
         
         addTrail: function addTrail(percScreen) {
         	this.trail = percScreen / 100;
+        	var rend =this.editor.renderer,
+        		height = dom.getInnerHeight(rend.container),
+        		lineHeight = rend.lineHeight;
+        	this.editor.getSession().setTrailLines((height*this.trail)/lineHeight);
+        	rend.$updateScrollBar();
         },
         
         addLead: function addLead(percScreen) {
@@ -73,80 +82,16 @@ define("writeroom/layout", function(require, exports, module) {
         
         keepCurrentLineAtCenter: function keepCurrentLineAtCenter() {
         	var _this = this;
-        	var numLines = -1;
-        	event.addListener(this.editor.getSession(), "change", function(e) {
+        	var lastLine = -1024;
+        	this.editor.session.getSelection().addEventListener("changeCursor", function(e){
         		var ed = _this.editor,
-        			lines = ed.session.getLength();
-        		if( numLines == lines ) return;
-        		
-        		var	rend = ed.renderer,
+        			rend = ed.renderer,
         			pos = ed.getCursorPosition();
-        		numLines = lines;
-        		_this.paddingAwareScrollToLine(pos.row, true);
-        	});
-        },
-        
-        registerOnScroll: function registerOnScroll() {
-            this.editor.renderer.scrollBar.addEventListener("scroll",
-                                                            this.onScroll.bind(this));
-        },
-        
-        onScroll: function onScroll(e) {
-        },
-        
-        adjustPaddingFor: function adjustPaddingFor(row, dontAdjust) {
-        	var rend = this.editor.renderer,
-	    		lineHeight = rend.lineHeight,
-	        	height = dom.getInnerHeight(rend.container),
-	        	leadLines = Math.round((this.lead * height) / lineHeight),
-	        	prevPadding = parseInt(rend.content.style["padding-top"]);
-	        	mid = (rend.$size.scrollerHeight-prevPadding) / 2,
-	        	midline = mid / lineHeight,
-	        	adjustFlag = typeof(dontAdjust) === "undefined" || dontAdjust !== true; 
-
-        	if( row >= midline ) {
-        		diff = row - midline;
-        		if( diff > leadLines ) {
-        			if( adjustFlag ) { 
-        				rend.content.style["padding-top"] = "0px";
-        				console.log("going zero");
-        			}
-        			
-        			return 0;
-        		} else {
-        			var diff2 = Math.round(leadLines - diff),
-        				pad =  diff2 * lineHeight;
-        			if( pad < lineHeight ) pad = 0;
-        			if( adjustFlag ) { 
-        				rend.content.style["padding-top"] = pad+"px";
-        				console.log("padding: "+pad);
-        			}
-        			return diff;
+        		if( lastLine !== pos.row ) {
+        			rend.scrollToLine(pos.row, true);
+        			lastLine = pos.row;
         		}
-        	}
-        	
-        	if( adjustFlag ){ 
-        		rend.content.style["padding-top"] = (leadLines*lineHeight)+"px";
-        		console.log("full padding / r:"+row+" m:"+midline);
-        	}
-        	
-        	return leadLines;
-        },
-        
-        paddingAwareScrollToLine: function(line, center) {
-            var offset = 0;
-            var rend = this.editor.renderer,
-            	lineHeight = { lineHeight: rend.lineHeight };
-            	
-            for (var l = 1; l < line; l++) {
-                offset += this.editor.session.getRowHeight(lineHeight, l-1);
-            }
-            
-            if (center) {
-                offset -= (rend.$size.scrollerHeight) / 2 ;
-            }
-            
-            rend.scrollToY(offset);
+        	});
         }
         
     };
