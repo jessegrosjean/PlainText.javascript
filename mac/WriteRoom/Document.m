@@ -70,6 +70,7 @@
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
 	if (lastReadString) {
 		self.textContent = lastReadString;
+		[self updateChangeCount:NSChangeCleared];
 	} else {
 		lastReadString = @"";
 	}
@@ -82,12 +83,13 @@
 #pragma mark Actions
 
 - (BOOL)isDocumentEdited {
-	NSString *current = [webView.jsDocument callWebScriptMethod:@"getValue" withArguments:[NSArray array]];
-	return current != lastReadString && ![lastReadString isEqualToString:current];
+	return [[webView.jsUndoManager callWebScriptMethod:@"hasChanges" withArguments:[NSArray array]] boolValue];
 }
 
 - (void)updateChangeCount:(NSDocumentChangeType)change {
+	NSAssert(change != NSChangeDone && change != NSChangeUndone && change != NSChangeRedone, @"Javascript side maintains own undo manager.", nil);
 	[super updateChangeCount:change];
+	[webView.jsUndoManager callWebScriptMethod:@"updateChangeCount" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInteger:change]]];
 }
 
 - (IBAction)undo:(id)sender {
@@ -251,6 +253,7 @@
 	
 	if (lastReadString) {
 		self.textContent = lastReadString;
+		[self updateChangeCount:NSChangeCleared];
 		
 		NSAppleEventDescriptor *appleEventDescriptor = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
 		NSAppleEventDescriptor *keyAEPropDataDescriptor = nil;

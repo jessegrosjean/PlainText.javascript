@@ -88,6 +88,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		88746E4D13350FAC0082B8FF /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				88746E191333D4E00082B8FF /* DocumentTextInput.h */,
+				88746E1A1333D4E00082B8FF /* DocumentTextInput.m */,
+			);
+			name = Unused;
+			sourceTree = "<group>";
+		};
 		8878D940132BD21500D32914 = {
 			isa = PBXGroup;
 			children = (
@@ -133,10 +142,9 @@
 			children = (
 				8878D961132BD21500D32914 /* Document.h */,
 				8878D962132BD21500D32914 /* Document.m */,
-				88746E191333D4E00082B8FF /* DocumentTextInput.h */,
-				88746E1A1333D4E00082B8FF /* DocumentTextInput.m */,
 				8807DDB5132C0262003B85C9 /* DocumentWebView.h */,
 				8807DDB6132C0262003B85C9 /* DocumentWebView.m */,
+				88746E4D13350FAC0082B8FF /* Unused */,
 				8878D956132BD21500D32914 /* Supporting Files */,
 			);
 			path = WriteRoom;

@@ -7,7 +7,7 @@
 //
 
 
-@interface DocumentWebView : WebView <NSTextViewDelegate, NSTextStorageDelegate> {
+@interface DocumentWebView : WebView {
 	WebScriptObject *jsDocument;
 	WebScriptObject *jsSession;
 	WebScriptObject *jsUndoManager;

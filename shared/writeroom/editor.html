@@ -36,19 +36,20 @@
 <script src="theme_writeroom.js" lang="javascript"></script>
 <script src="writeroom.js" lang="javascript"></script>
 <script src="typewriter_session.js" lang="javascript"></script>
+<script src="writeroom_document.js" lang="javascript"></script>
 <script src="writeroom_renderer.js" lang="javascript"></script>
 <script src="writeroom_undomanager.js" lang="javascript"></script>
 
 <script>
 var editor, effect, layoutManager;
 
+var dom = require("pilot/dom");
 var Editor = require("ace/editor").Editor;
 var MarkdownMode = require("ace/mode/markdown").Mode;
 var LayoutManager = require("writeroom/layout").LayoutManager;
-//var UndoManager = require("ace/undomanager").UndoManager;
-var dom = require("pilot/dom");
 var UndoManager = require("writeroom/undomanager").WrUndoManager;
 var Renderer = require("writeroom/renderer").WrRenderer;
+var Document = require("writeroom/document").WrDocument;
 var TypewriterSession = require("writeroom/typewriter_session").TypewriterSession;
 var EditSession = require("ace/edit_session").EditSession;
 var Event = require("pilot/event");
@@ -60,12 +61,12 @@ catalog.registerPlugins([ "pilot/index" ]);
 window.onload = function() {
 
 	var elem= document.getElementById("editor");
-	var doc = new TypewriterSession(dom.getInnerText(elem), new MarkdownMode());
-	doc.setUndoManager(new UndoManager());
+	var session = new TypewriterSession(new Document(dom.getInnerText(elem)), new MarkdownMode());
+	session.setUndoManager(new UndoManager());
 	elem.innerHTML = "";
 	
 	editor = new Editor(new Renderer(elem, "writeroom/theme"));
-	editor.setSession(doc);
+	editor.setSession(session);
 	
 	layoutManager = new LayoutManager(editor);
 	
@@ -73,7 +74,7 @@ window.onload = function() {
 		
 	var env = require("pilot/environment").create();
     catalog.startupPlugins({ env: env }).then(function() {
-        env.document = doc;
+        env.document = session;
         env.editor = editor;
         editor.resize();
         Event.addListener(window, "resize", function(e) {
@@ -86,7 +87,7 @@ window.onload = function() {
     // the returned object.
     editor.env = env;
 
-    doc.setUseWrapMode(true);
+    session.setUseWrapMode(true);
 	
 	editor.setHighlightActiveLine(false);
 	
