@@ -56,7 +56,7 @@ catalog.registerPlugins([ "pilot/index" ]);
 window.onload = function() {
 
 	var elem= document.getElementById("editor");
-	var doc = new EditSession(dom.getInnerText(elem));
+	var doc = new TypewriterSession(dom.getInnerText(elem), new MarkdownMode());
 	doc.setUndoManager(new UndoManager());
 	elem.innerHTML = "";
 	
@@ -83,7 +83,6 @@ window.onload = function() {
     editor.env = env;
 
     editor.getSession().setUseWrapMode(true);
-	editor.getSession().setMode(new MarkdownMode());
 	editor.setHighlightActiveLine(false);
 	
 	editor.renderer.setShowGutter(false);
