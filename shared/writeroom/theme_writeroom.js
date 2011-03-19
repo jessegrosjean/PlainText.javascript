@@ -54,7 +54,6 @@ define("writeroom/theme", function(require, exports, module) {
 }\
 \
 .ace-tmwr .ace_line .ace_keyword {\
-  color: rgb(128,128,128);\
 }\
 \
 .ace-tmwr .ace_line .ace_constant.ace_buildin {\

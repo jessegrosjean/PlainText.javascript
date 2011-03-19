@@ -115,4 +115,52 @@
 	return YES;
 }
 
+#pragma mark -
+#pragma mark TextView Delegate
+
+/*
+- (NSPoint)mapLocation:(NSUInteger)location toRowColInText:(NSString *)aString {
+	NSArray *lines = [aString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+	NSUInteger progress = 0;
+	NSUInteger row = 0;
+	NSUInteger col = 0;
+	
+	for (NSString *each in lines) {
+		NSUInteger length = [each length];
+		if (progress + length >= location) {
+			col = location - progress;
+		} else {
+			progress += length;
+			row++;
+		}
+	}
+	
+	return NSMakePoint(col, row);
+}
+
+- (NSRange)textView:(NSTextView *)aTextView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange {
+	NSPoint p1 = [self mapLocation:newSelectedCharRange.location toRowColInText:[[textInput textStorage] string]];
+	//NSPoint p2 = [self mapLocation:NSMaxRange(newSelectedCharRange) toRowColInText:[[textInput textStorage] string]];
+	//WebScriptObject *range = [[self windowScriptObject] evaluateWebScript:[NSString stringWithFormat:@"new Range(%i, %i, %i, %i)", p1.x, p1.y, p2.x, p2.y, nil]];
+	//[[self jsSelection] callWebScriptMethod:@"setSelectionRange" withArguments:[NSArray arrayWithObjects:range, [NSNumber numberWithBool:NO], nil]];
+	
+	
+	[[self jsSelection] callWebScriptMethod:@"moveCursorTo" withArguments:[NSArray arrayWithObjects:[NSNumber numberWithInt:p1.y], [NSNumber numberWithInt:p1.x], nil]];
+	return newSelectedCharRange;
+}
+
+- (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+	[[self jsEditor] callWebScriptMethod:@"insert" withArguments:[NSArray arrayWithObject:replacementString]];
+	return YES;
+}
+
+#pragma mark -
+#pragma mark Text Storage Delegate
+
+- (void)textStorageWillProcessEditing:(NSNotification *)aNotification {
+}
+
+- (void)textStorageDidProcessEditing:(NSNotification *)aNotification {
+}*/
+
 @end

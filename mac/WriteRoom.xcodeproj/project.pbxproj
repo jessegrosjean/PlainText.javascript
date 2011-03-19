@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		8807DDB4132BFFF9003B85C9 /* WriteRoom.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8807DDB3132BFFF9003B85C9 /* WriteRoom.icns */; };
 		8807DDB7132C0262003B85C9 /* DocumentWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8807DDB6132C0262003B85C9 /* DocumentWebView.m */; };
-		8807DDC7132C4AFE003B85C9 /* writeroom in Resources */ = {isa = PBXBuildFile; fileRef = 8807DDC6132C4AFE003B85C9 /* writeroom */; };
+		88746E1B1333D4E00082B8FF /* DocumentTextInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 88746E1A1333D4E00082B8FF /* DocumentTextInput.m */; };
+		88746E4C13350C7B0082B8FF /* writeroom in Resources */ = {isa = PBXBuildFile; fileRef = 88746E4B13350C7B0082B8FF /* writeroom */; };
 		8878D950132BD21500D32914 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8878D94F132BD21500D32914 /* Cocoa.framework */; };
 		8878D95A132BD21500D32914 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8878D958132BD21500D32914 /* InfoPlist.strings */; };
 		8878D95D132BD21500D32914 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878D95C132BD21500D32914 /* main.m */; };
@@ -38,7 +39,10 @@
 		8807DDB3132BFFF9003B85C9 /* WriteRoom.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = WriteRoom.icns; sourceTree = "<group>"; };
 		8807DDB5132C0262003B85C9 /* DocumentWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentWebView.h; sourceTree = "<group>"; };
 		8807DDB6132C0262003B85C9 /* DocumentWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentWebView.m; sourceTree = "<group>"; };
-		8807DDC6132C4AFE003B85C9 /* writeroom */ = {isa = PBXFileReference; lastKnownFileType = folder; name = writeroom; path = ../../shared/writeroom; sourceTree = "<group>"; };
+		88746E191333D4E00082B8FF /* DocumentTextInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentTextInput.h; sourceTree = "<group>"; };
+		88746E1A1333D4E00082B8FF /* DocumentTextInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentTextInput.m; sourceTree = "<group>"; };
+		88746E4913350B720082B8FF /* writeroom_undomanager.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = writeroom_undomanager.js; path = ../shared/writeroom/writeroom_undomanager.js; sourceTree = "<group>"; };
+		88746E4B13350C7B0082B8FF /* writeroom */ = {isa = PBXFileReference; lastKnownFileType = folder; name = writeroom; path = ../../shared/writeroom; sourceTree = "<group>"; };
 		8878D94B132BD21500D32914 /* WriteRoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WriteRoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8878D94F132BD21500D32914 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8878D952132BD21500D32914 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -87,6 +91,7 @@
 		8878D940132BD21500D32914 = {
 			isa = PBXGroup;
 			children = (
+				88746E4913350B720082B8FF /* writeroom_undomanager.js */,
 				8878D955132BD21500D32914 /* WriteRoom */,
 				8878D973132BD21600D32914 /* WriteRoomTests */,
 				8878D94E132BD21500D32914 /* Frameworks */,
@@ -128,6 +133,8 @@
 			children = (
 				8878D961132BD21500D32914 /* Document.h */,
 				8878D962132BD21500D32914 /* Document.m */,
+				88746E191333D4E00082B8FF /* DocumentTextInput.h */,
+				88746E1A1333D4E00082B8FF /* DocumentTextInput.m */,
 				8807DDB5132C0262003B85C9 /* DocumentWebView.h */,
 				8807DDB6132C0262003B85C9 /* DocumentWebView.m */,
 				8878D956132BD21500D32914 /* Supporting Files */,
@@ -139,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				8878D995132BD3D200D32914 /* ace */,
-				8807DDC6132C4AFE003B85C9 /* writeroom */,
+				88746E4B13350C7B0082B8FF /* writeroom */,
 				8878D967132BD21600D32914 /* MainMenu.xib */,
 				8878D992132BD3AA00D32914 /* DocumentWindow.xib */,
 				8878D957132BD21500D32914 /* WriteRoom-Info.plist */,
@@ -247,7 +254,7 @@
 				8878D994132BD3AA00D32914 /* DocumentWindow.xib in Resources */,
 				8878D996132BD3D200D32914 /* ace in Resources */,
 				8807DDB4132BFFF9003B85C9 /* WriteRoom.icns in Resources */,
-				8807DDC7132C4AFE003B85C9 /* writeroom in Resources */,
+				88746E4C13350C7B0082B8FF /* writeroom in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +293,7 @@
 				8878D95D132BD21500D32914 /* main.m in Sources */,
 				8878D963132BD21500D32914 /* Document.m in Sources */,
 				8807DDB7132C0262003B85C9 /* DocumentWebView.m in Sources */,
+				88746E1B1333D4E00082B8FF /* DocumentTextInput.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
