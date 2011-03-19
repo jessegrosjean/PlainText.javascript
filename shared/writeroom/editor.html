@@ -93,8 +93,11 @@ window.onload = function() {
 
 	// Call layout once, and give automatic focus to the editor
 	layoutManager.addTrail(50);	// should be called before centering in startupmode
+	layoutManager.addLead(25);
+	layoutManager.registerOnScroll();
 	centering(null);
 	layoutManager.keepCurrentLineAtCenter();
+    layoutManager.onScroll({data: 0});
 	editor.focus();
 };
 </script>

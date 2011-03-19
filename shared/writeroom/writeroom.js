@@ -7,6 +7,7 @@ define("writeroom/layout", function(require, exports, module) {
     var LayoutManager = function LayoutManager(editor) {
         this.editor = editor;
         this.trail = 0;
+        this.lead = 0;
         
     };
     
@@ -58,6 +59,10 @@ define("writeroom/layout", function(require, exports, module) {
         	this.trail = percScreen / 100;
         },
         
+        addLead: function addHead(percScreen) {
+        	this.lead = percScreen / 100;
+        },
+        
         keepCurrentLineAtCenter: function keepCurrentLineAtCenter() {
         	var _this = this;
         	event.addListener(this.editor.getSession(), "change", function() {
@@ -73,7 +78,16 @@ define("writeroom/layout", function(require, exports, module) {
         },
         
         onScroll: function onScroll(e) {
-            console.log(e);
+        	if( this.lead == 0 ) return;
+        	var rend = this.editor.renderer,
+        		lineHeight = rend.lineHeight,
+            	height = dom.getInnerHeight(rend.container),
+            	atLine = Math.ceil(e.data / lineHeight),
+            	leadLines = (this.lead * height) / lineHeight;
+        	if( atLine > leadLines ) return;
+        	var diff = leadLines - atLine;
+        	var padd = diff * lineHeight;
+        	rend.content.style["padding-top"] = padd+"px";
         }
         
     };
