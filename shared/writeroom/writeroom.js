@@ -55,7 +55,7 @@ define("writeroom/layout", function(require, exports, module) {
         		if( _this.trail > 0 ) {
 	            	var height = dom.getInnerHeight(rend.container);
 	            	var lineHeight = rend.lineHeight;
-	            	ed.getSession().setEmptyTrail((height*_this.trail)/lineHeight);
+	            	ed.getSession().setTrailLines((height*_this.trail)/lineHeight);
 	            	rend.$updateScrollBar();
         		}
         	};
@@ -65,8 +65,10 @@ define("writeroom/layout", function(require, exports, module) {
         	this.trail = percScreen / 100;
         },
         
-        addLead: function addHead(percScreen) {
+        addLead: function addLead(percScreen) {
         	this.lead = percScreen / 100;
+        	var rend =this.editor.renderer; 
+        	rend.setLead(dom.getInnerHeight(rend.container)*this.lead);
         },
         
         keepCurrentLineAtCenter: function keepCurrentLineAtCenter() {

@@ -6,24 +6,24 @@ define("writeroom/typewriter_session", function(require, exports, module) {
 	var TWSession = function TWSession(text,mode) {
 		// Calling the EditSession constructor on our object, so we look like EditSession
 		EditSession.prototype.constructor.apply(this, arguments);
-		this.$emptyTrail = this.$emptyHead = 0;
+		this.$trailLines = this.$leadLines = 0;
 	};
 
 	oop.inherits(TWSession, EditSession);
 
 	(function() {
 		
-		this.setEmptyTrail = function setEmptyTrail(numLines) { 
-			this.$emptyTrail = numLines;
+		this.setTrailLines = function setTrailLines(numLines) { 
+			this.$trailLines = numLines;
 		};
 		
-		this.setEmptyHead = function setEmptyHead(numLines) {
-			this.$emptyHead = numLines;
+		this.setLeadLines = function setLeadLines(numLines) {
+			this.$leadLines = numLines;
 		};
 		
 		this.getScreenLength = function getScreenLength() {
 			var screenRows = TWSession.super_.getScreenLength.call(this);
-			return screenRows + this.$emptyTrail + this.$emptyHead;
+			return screenRows + this.$leadLines + this.$trailLines;
 		};
 
 
