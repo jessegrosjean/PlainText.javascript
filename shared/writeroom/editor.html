@@ -35,22 +35,64 @@
 <script src="markdown.js" lang="javascript"></script>
 <script src="theme_writeroom.js" lang="javascript"></script>
 <script src="writeroom.js" lang="javascript"></script>
+<script src="typewriter_session.js" lang="javascript"></script>
 
 <script>
-var editor, effect;
+var editor, effect, layoutManager;
 
+var Editor = require("ace/editor").Editor;
 var MarkdownMode = require("ace/mode/markdown").Mode;
+var LayoutManager = require("writeroom/layout").LayoutManager;
+var UndoManager = require("ace/undomanager").UndoManager;
+var dom = require("pilot/dom");
+var Renderer = require("ace/virtual_renderer").VirtualRenderer;
+var TypewriterSession = require("writeroom/typewriter_session").TypewriterSession;
+var EditSession = require("ace/edit_session").EditSession;
+var Event = require("pilot/event");
+
+var catalog = require("pilot/plugin_manager").catalog;
+catalog.registerPlugins([ "pilot/index" ]);
 
 window.onload = function() {
-	editor = ace.edit("editor");
+
+	var elem= document.getElementById("editor");
+	var doc = new EditSession(dom.getInnerText(elem));
+	doc.setUndoManager(new UndoManager());
+	elem.innerHTML = "";
+	
+	editor = new Editor(new Renderer(elem, "writeroom/theme"));
+	editor.setSession(doc);
+	
+	layoutManager = new LayoutManager(editor);
+	
+	var centering = layoutManager.layoutCenter(80);
+		
+	var env = require("pilot/environment").create();
+    catalog.startupPlugins({ env: env }).then(function() {
+        env.document = doc;
+        env.editor = editor;
+        editor.resize();
+        Event.addListener(window, "resize", function(e) {
+            editor.resize();
+            centering(e);
+        });
+        elem.env = env;
+    });
+    // Store env on editor such that it can be accessed later on from
+    // the returned object.
+    editor.env = env;
+
+    editor.getSession().setUseWrapMode(true);
+	editor.getSession().setMode(new MarkdownMode());
 	editor.setHighlightActiveLine(false);
-	editor.getSession().setUseWrapMode(true);
-    editor.getSession().setMode(new MarkdownMode());
-    editor.setTheme("writeroom/theme");
 	
 	editor.renderer.setShowGutter(false);
 	editor.renderer.setShowPrintMargin(false);
 	editor.renderer.setHScrollBarAlwaysVisible(false);
+
+	// Call layout once, and give automatic focus to the editor
+	centering(null);
+	editor.focus();
 };
 </script>
 
