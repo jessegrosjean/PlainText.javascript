@@ -110,6 +110,17 @@ window.onload = function() {
 	centering(null);
 	layoutManager.keepCurrentLineAtCenter();
 	editor.focus();
+	
+	var wordCount = 0;
+	var wcl = Wr.getWordCountListener(editor, 
+			function (wordDelta) {
+				if( wordDelta === 0 && wordCount === 0 ) wordCount = 1;
+				wordCount+= wordDelta;
+				console.log("WordCount: "+wordCount);
+			}
+	);
+	Event.addListener(editor.session, "change", wcl);
+	
 };
 </script>
 
