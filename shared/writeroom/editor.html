@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Editor</title>
   <style type="text/css" media="screen">
-	@font-face { font-family: DejaVuSansMono; src: url('./DejaVuSansMono.ttf'); }
-	@font-face { font-family: DejaVuSansMono; font-weight: bold; src: url('./DejaVuSansMono-Bold.ttf'); }
-	@font-face { font-family: DejaVuSansMono; font-style: italic; src: url('./DejaVuSansMono-Oblique.ttf'); }
+	@font-face { font-family: DejaVuSansMono; src: url('./resources/DejaVuSansMono.ttf'); }
+	@font-face { font-family: DejaVuSansMono; font-weight: bold; src: url('./resources/DejaVuSansMono-Bold.ttf'); }
+	@font-face { font-family: DejaVuSansMono; font-style: italic; src: url('./resources/DejaVuSansMono-Oblique.ttf'); }
 	  
     body {
         overflow: hidden;
@@ -32,53 +32,47 @@
 	
 <script src="../ace/src/ace-uncompressed.js" type="text/javascript" charset="utf-8"></script>
 <script src="markdown_highlight_rules.js" lang="javascript"></script>
-<script src="markdown.js" lang="javascript"></script>
+<script src="mode_markdown.js" lang="javascript"></script>
 <script src="theme_writeroom.js" lang="javascript"></script>
 <script src="writeroom.js" lang="javascript"></script>
+<script src="writeroom_layout.js" lang="javascript"></script>
 <script src="writeroom_editor.js" lang="javascript"></script>
-<script src="typewriter_session.js" lang="javascript"></script>
+<script src="writeroom_edit_session.js" lang="javascript"></script>
 <script src="writeroom_document.js" lang="javascript"></script>
 <script src="writeroom_renderer.js" lang="javascript"></script>
 <script src="writeroom_undomanager.js" lang="javascript"></script>
+<script src="writeroom_commands.js" lang="javascript"></script>
 
 <script>
+	var dom = require("pilot/dom");
+	var Event = require("pilot/event");
+	var catalog = require("pilot/plugin_manager").catalog;
+	
+	var Wr = require("writeroom/base");
+	var MarkdownMode = require("writeroom/mode_markdown").Mode;
+	var Editor = require("writeroom/editor").WrEditor;
+	var LayoutManager = require("writeroom/layout").LayoutManager;
+	var UndoManager = require("writeroom/undomanager").WrUndoManager;
+	var Renderer = require("writeroom/renderer").WrRenderer;
+	var Document = require("writeroom/document").WrDocument;
+	var EditSession = require("writeroom/edit_session").WrEditSession;
+</script>
+
+<script>
+	
 var editor, effect, layoutManager;
-
-var dom = require("pilot/dom");
-var MarkdownMode = require("ace/mode/markdown").Mode;
-var Editor = require("writeroom/editor").WrEditor;
-var LayoutManager = require("writeroom/layout").LayoutManager;
-var UndoManager = require("writeroom/undomanager").WrUndoManager;
-var Renderer = require("writeroom/renderer").WrRenderer;
-var Document = require("writeroom/document").WrDocument;
-var TypewriterSession = require("writeroom/typewriter_session").TypewriterSession;
-var EditSession = require("ace/edit_session").EditSession;
-var Event = require("pilot/event");
-
-
-var catalog = require("pilot/plugin_manager").catalog;
 catalog.registerPlugins([ "pilot/index" ]);
 
 window.onload = function() {
 
 	var elem= document.getElementById("editor");
 	var doc = new Document(dom.getInnerText(elem));
-	var session = new TypewriterSession(doc, new MarkdownMode());
+	var session = new EditSession(doc, new MarkdownMode());
 	var undoManager = new UndoManager();
 	session.setUndoManager(undoManager);
 	elem.innerHTML = "";
 
-	undoManager.on("didPushDeltas", function(e) {
-		nativeDocument.javascriptUpdateChangeCount_(0 /* NSChangeDone */);
-	});
-
-	undoManager.on("didUndoDeltas", function(e) {
-		nativeDocument.javascriptUpdateChangeCount_(1 /* NSChangeUndone */);
-	});
-
-	undoManager.on("didRedoDeltas", function(e) {
-		nativeDocument.javascriptUpdateChangeCount_(5 /* NSChangeRedone */);
-	});
+	Wr.setupUndoNativeBindings(undoManager);
 
 	editor = new Editor(new Renderer(elem, "writeroom/theme"));
 	editor.setSession(session);
@@ -105,8 +99,7 @@ window.onload = function() {
     session.setUseWrapMode(true);
 	
 	editor.setHighlightActiveLine(false);
-	
-	
+
 	editor.renderer.setShowGutter(false);
 	editor.renderer.setShowPrintMargin(false);
 	editor.renderer.setHScrollBarAlwaysVisible(false);

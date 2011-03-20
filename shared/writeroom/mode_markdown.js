@@ -8,9 +8,10 @@ define("writeroom/mode_markdown", function(require, exports, module) {
 var oop = require("pilot/oop");
 var TextMode = require("ace/mode/text").Mode;
 var Tokenizer = require("ace/tokenizer").Tokenizer;
-var MarkdownHighlightRules = require("writeroom/markdown_highlight_rules").MarkdownHighlightRules;
 var MatchingBraceOutdent = require("ace/mode/matching_brace_outdent").MatchingBraceOutdent;
 var Range = require("ace/range").Range;
+
+var MarkdownHighlightRules = require("writeroom/markdown_highlight_rules").MarkdownHighlightRules;
 
 var Mode = function()
 {

@@ -1,15 +1,15 @@
-define("writeroom/typewriter_session", function(require, exports, module) {
+define("writeroom/edit_session", function(require, exports, module) {
 
 	var oop = require("pilot/oop");
 	var EditSession = require("ace/edit_session").EditSession;
 
-	var TWSession = function TWSession(text,mode) {
+	var WrEditSession = function WrEditSession(text,mode) {
 		// Calling the EditSession constructor on our object, so we look like EditSession
 		EditSession.prototype.constructor.apply(this, arguments);
 		this.$trailLines = this.$leadLines = 0;
 	};
 
-	oop.inherits(TWSession, EditSession);
+	oop.inherits(WrEditSession, EditSession);
 
 	(function() {
 		
@@ -22,15 +22,15 @@ define("writeroom/typewriter_session", function(require, exports, module) {
 		};
 		
 		this.getScreenLength = function getScreenLength() {
-			var screenRows = TWSession.super_.getScreenLength.call(this);
+			var screenRows = WrEditSession.super_.getScreenLength.call(this);
 			return screenRows + this.$leadLines + this.$trailLines;
 		};
 
 
-	}).call(TWSession.prototype);
+	}).call(WrEditSession.prototype);
 
 
 	
 
-	exports.TypewriterSession = TWSession;
+	exports.WrEditSession = WrEditSession;
 });

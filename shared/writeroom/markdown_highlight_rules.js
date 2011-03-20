@@ -1,6 +1,6 @@
 /* Markdown highlighter */
 
-define("ace/mode/markdown_highlight_rules", function(require, exports, module) {
+define("writeroom/markdown_highlight_rules", function(require, exports, module) {
 
 var oop = require("pilot/oop");
 var TextHighlightRules = require("ace/mode/text_highlight_rules").TextHighlightRules;
