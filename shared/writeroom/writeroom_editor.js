@@ -34,15 +34,21 @@ define("writeroom/editor", function(require, exports, module) {
 
 	(function() {
 
+		this.toggleSpanWithBoundary = function(boundary) {
+			if (this.$readOnly)
+				return;
+	 
+			var selectedText = this.getCopyText();
+			selectedText = boundary + selectedText + boundary;
+			this.session.replace(this.getSelectionRange(), selectedText);
+		}	 
+	 
 		this.toggleBold = function(options) {
-			console.log("toggleBold");
+			this.toggleSpanWithBoundary("**");
 		};
 
 		this.toggleItalic = function(options) {
-			console.log("toggleItalic");
-		};
-
-		this.selectAll = function() {
+			this.toggleSpanWithBoundary("_");
 		};
 
 	}).call(WrEditor.prototype);
