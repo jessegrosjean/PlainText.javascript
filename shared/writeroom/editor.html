@@ -61,10 +61,24 @@ catalog.registerPlugins([ "pilot/index" ]);
 window.onload = function() {
 
 	var elem= document.getElementById("editor");
-	var session = new TypewriterSession(new Document(dom.getInnerText(elem)), new MarkdownMode());
-	session.setUndoManager(new UndoManager());
+	var doc = new Document(dom.getInnerText(elem));
+	var session = new TypewriterSession(doc, new MarkdownMode());
+	var undoManager = new UndoManager();
+	session.setUndoManager(undoManager);
 	elem.innerHTML = "";
-	
+
+	undoManager.on("didPushDeltas", function(e) {
+		nativeDocument.javascriptUpdateChangeCount_(0 /* NSChangeDone */);
+	});
+
+	undoManager.on("didUndoDeltas", function(e) {
+		nativeDocument.javascriptUpdateChangeCount_(1 /* NSChangeUndone */);
+	});
+
+	undoManager.on("didRedoDeltas", function(e) {
+		nativeDocument.javascriptUpdateChangeCount_(5 /* NSChangeRedone */);
+	});
+
 	editor = new Editor(new Renderer(elem, "writeroom/theme"));
 	editor.setSession(session);
 	

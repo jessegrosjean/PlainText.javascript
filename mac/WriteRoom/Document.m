@@ -18,6 +18,14 @@
 
 @implementation Document
 
++ (BOOL)isSelectorExcludedFromWebScript:(SEL)selector {
+   return NO;
+}
+
++ (BOOL)isKeyExcludedFromWebScript:(const char *)property {
+	return NO;
+}
+
 #pragma mark -
 #pragma mark Init
 
@@ -36,6 +44,7 @@
 	[externalSender release];
 	[externalToken release];
 	[lastReadString release];
+	[webView setUIDelegate:nil];
 	[webView setFrameLoadDelegate:nil];
 	[super dealloc];
 }
@@ -43,8 +52,7 @@
 - (void)close {
 	if (fromExternal == YES) {
 		[self sendClosedEventToExternalDocument];
-	}	
-
+	}
 	[super close];
 }
 
@@ -59,38 +67,45 @@
 	[super windowControllerDidLoadNib:windowController];
 	
 	[[webView window] setAlphaValue:0.0];
+	[webView setUIDelegate:self];
 	[webView setFrameLoadDelegate:self];
 	[webView setMaintainsBackForwardList:NO];
 	[[webView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] pathForResource:@"writeroom" ofType:@""] stringByAppendingPathComponent:@"editor.html"]]]];
 }
 
 #pragma mark -
+#pragma mark WebView UIDelegate
+
+- (void)webView:(WebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message {
+	NSLog(@"%@ received %@ with '%@'", self, NSStringFromSelector(_cmd), message);
+}
+
+#pragma mark -
 #pragma mark WebView Frame Load Delegate
+
+- (void)webView:(WebView *)aWebView windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
+	[windowScriptObject setValue:self forKey:@"nativeDocument"];
+}
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
 	if (lastReadString) {
 		self.textContent = lastReadString;
-		[self updateChangeCount:NSChangeCleared];
 	} else {
 		lastReadString = @"";
 	}
-		
 	[[webView window] setAlphaValue:1.0];
 	[[webView window] makeKeyAndOrderFront:nil];
 }
 
 #pragma mark -
+#pragma mark Changes
+
+- (void)javascriptUpdateChangeCount:(NSNumber *)changeType {
+	[self updateChangeCount:[changeType integerValue]];
+}
+
+#pragma mark -
 #pragma mark Actions
-
-- (BOOL)isDocumentEdited {
-	return [[webView.jsUndoManager callWebScriptMethod:@"hasChanges" withArguments:[NSArray array]] boolValue];
-}
-
-- (void)updateChangeCount:(NSDocumentChangeType)change {
-	NSAssert(change != NSChangeDone && change != NSChangeUndone && change != NSChangeRedone, @"Javascript side maintains own undo manager.", nil);
-	[super updateChangeCount:change];
-	[webView.jsUndoManager callWebScriptMethod:@"updateChangeCount" withArguments:[NSArray arrayWithObject:[NSNumber numberWithInteger:change]]];
-}
 
 - (IBAction)undo:(id)sender {
 	[webView.jsUndoManager callWebScriptMethod:@"undo" withArguments:[NSArray array]];
@@ -237,11 +252,11 @@
 #pragma mark Read / Write
 
 - (NSString *)textContent {
-	return [webView.jsDocument callWebScriptMethod:@"getValue" withArguments:[NSArray array]];
+	return [webView.jsSession callWebScriptMethod:@"getValue" withArguments:[NSArray array]];
 }
 
 - (void)setTextContent:(NSString *)textContent {
-	[webView.jsDocument callWebScriptMethod:@"setValue" withArguments:[NSArray arrayWithObject:textContent]];
+	[webView.jsSession callWebScriptMethod:@"setValue" withArguments:[NSArray arrayWithObject:textContent]];
 }
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
@@ -253,7 +268,6 @@
 	
 	if (lastReadString) {
 		self.textContent = lastReadString;
-		[self updateChangeCount:NSChangeCleared];
 		
 		NSAppleEventDescriptor *appleEventDescriptor = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
 		NSAppleEventDescriptor *keyAEPropDataDescriptor = nil;
