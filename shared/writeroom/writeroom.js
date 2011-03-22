@@ -39,6 +39,7 @@ define("writeroom/base", function(require, exports, module) {
 			}
 			if( delta.action === "removeText" && delta.text.charCodeAt(0) === 13 ) {
 				afterEnd = exports.movePointRightInline(editor, range.start);
+				if( afterEnd === null ) return; // deleted an empty line
 				var beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
 				var afterChar = editor.session.getLine(afterEnd.row).charAt(afterEnd.column);
 				if( beforeChar.match(/\s/) === null && afterChar.match(/\s/) === null ) {
@@ -78,7 +79,9 @@ define("writeroom/base", function(require, exports, module) {
 					prependingToWord = afterChar.length > 0 && afterChar.match(/\s/) === null && textstats.endsWithAWord;
 				}
 				
-				breakingWord = beforeStart && afterEnd && beforeChar.match(/\s/) === null && afterChar.match(/\s/) === null;
+				breakingWord = beforeStart && afterEnd  && 
+								beforeChar.length > 0 && beforeChar.match(/\s/) === null && 
+								afterChar.length > 0 && afterChar.match(/\s/) === null;
 				
 				if( !appendingToWord && !prependingToWord ) {
 					updateFn(textstats.words + (breakingWord? 1:0));
@@ -116,7 +119,9 @@ define("writeroom/base", function(require, exports, module) {
 					prependingToWord = afterChar.length > 0 && afterChar.match(/\s/) === null && textstats.endsWithAWord;
 				}
 				
-				var joiningWord = beforeStart && afterEnd && beforeChar.match(/\s/) === null && afterChar.match(/\s/) === null;
+				var joiningWord = beforeStart && afterEnd  && 
+					beforeChar.length > 0 && beforeChar.match(/\s/) === null && 
+					afterChar.length > 0 && afterChar.match(/\s/) === null;
 				
 				if( !appendingToWord && !prependingToWord ) {
 					updateFn(-(textstats.words + (joiningWord? 1:0)));
