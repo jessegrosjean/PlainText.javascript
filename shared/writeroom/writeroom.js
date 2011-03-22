@@ -104,6 +104,7 @@ define("writeroom/base", function(require, exports, module) {
 			if( delta.action === "removeText" ) {
 				appendingToWord = false; prependingToWord = false; breakingWord = false;
 				
+				
 				if( beforeStart == null && afterEnd == null) {
 					updateFn(-textstats.words);
 					return;
@@ -115,7 +116,7 @@ define("writeroom/base", function(require, exports, module) {
 				}
 				
 				if(afterEnd !== null){
-					var afterChar = editor.session.getLine(afterEnd.row).charAt(afterEnd.column);
+					var afterChar = editor.session.getLine(afterEnd.row).charAt(range.start.column);
 					prependingToWord = afterChar.length > 0 && afterChar.match(/\s/) === null && textstats.endsWithAWord;
 				}
 				
