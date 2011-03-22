@@ -22,18 +22,45 @@ define("writeroom/base", function(require, exports, module) {
 			var delta = e.data,
 				range = delta.range,
 				beforeStart = exports.movePointLeftInline(editor, range.start),
-				afterEnd = exports.movePointRightInline(editor, range.end);
+				afterEnd = exports.movePointLeftInline(editor, range.end);
+			
 				
 			var text = "";
 			if( delta.action === "insertText" || delta.action === "removeText" )
 				text = delta.text;
-			else if ( delta.action === "insertLines" || delta.action === "removeLines" ) 
-				text = delta.lines.join(" ");
+			else if ( delta.action === "insertLines" || delta.action === "removeLines" ) {
+				var res = 0;
+				for( var i = 0; i < delta.lines.length; i++ ) {
+					res += exports.countWords(delta.lines[i]).words;
+				}
+				if( delta.action === "removeLines" ) updateFn(-res);
+				else updateFn(res);
+				return;
+			}
+			if( delta.action === "removeText" && delta.text.charCodeAt(0) === 13 ) {
+				afterEnd = exports.movePointRightInline(editor, range.start);
+				var beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
+				var afterChar = editor.session.getLine(afterEnd.row).charAt(afterEnd.column);
+				if( beforeChar.match(/\s/) === null && afterChar.match(/\s/) === null ) {
+					updateFn(-1);
+				}
+				return;
+			}
+			
+			if( delta.action === "insertText" && delta.text.charCodeAt(0) === 13 ) {
+				var beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
+				var afterChar = editor.session.getLine(range.end.row).charAt(range.end.column);
+				if( afterChar === "" ) return; // newly created line
+				if( beforeChar.match(/\s/) === null && afterChar.match(/\s/) === null ) {
+					updateFn(1);
+				}
+				return;
+			}
 			
 			
 			var textstats = exports.countWords(text);
 			
-			if( delta.action === "insertText" || delta.action === "insertLines" ){
+			if( delta.action === "insertText" ){
 				var appendingToWord = false, prependingToWord = false, breakingWord = false;
 				
 				if( beforeStart == null && afterEnd == null) {
@@ -67,6 +94,44 @@ define("writeroom/base", function(require, exports, module) {
 				if( appendingToWord || prependingToWord ) {
 					if( textstats.words !== 0 ) 
 						updateFn(textstats.words - 1);
+					return;
+				}
+			} 
+			
+			if( delta.action === "removeText" ) {
+				appendingToWord = false; prependingToWord = false; breakingWord = false;
+				
+				if( beforeStart == null && afterEnd == null) {
+					updateFn(-textstats.words);
+					return;
+				}
+				
+				if( beforeStart !== null ) {
+					var beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
+					appendingToWord = beforeChar.length > 0 && beforeChar.match(/\s/) === null && textstats.startsWithAWord;
+				}
+				
+				if(afterEnd !== null){
+					var afterChar = editor.session.getLine(afterEnd.row).charAt(afterEnd.column);
+					prependingToWord = afterChar.length > 0 && afterChar.match(/\s/) === null && textstats.endsWithAWord;
+				}
+				
+				var joiningWord = beforeStart && afterEnd && beforeChar.match(/\s/) === null && afterChar.match(/\s/) === null;
+				
+				if( !appendingToWord && !prependingToWord ) {
+					updateFn(-(textstats.words + (joiningWord? 1:0)));
+					return;
+				}
+				
+				if( appendingToWord && prependingToWord ) {
+					if( textstats.words === 0 ) updateFn(-1);
+					else updateFn(-(textstats.words-1));
+					return;
+				}
+				
+				if( appendingToWord || prependingToWord ) {
+					if( textstats.words !== 0 ) 
+						updateFn(-(textstats.words - 1));
 					return;
 				}
 			}
