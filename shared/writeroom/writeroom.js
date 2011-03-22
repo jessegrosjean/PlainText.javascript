@@ -1,5 +1,11 @@
 define("writeroom/base", function(require, exports, module) {
 	
+	if( typeof(nativeDocument) !== "undefined" ) {
+		console.log = function(text) {
+			nativeDocument.javascriptConsoleLog_(text);
+		}
+	}
+	
 	exports.setupUndoNativeBindings = function(undoManager) {
 		undoManager.on("didPushDeltas", function(e) {
 			if( typeof(nativeDocument) !== "undefined" )

@@ -76,8 +76,33 @@
 #pragma mark -
 #pragma mark WebView UIDelegate
 
+- (void)webViewFocus:(WebView *)sender {
+}
+
+- (void)webViewUnfocus:(WebView *)sender {	
+}
+
+- (NSResponder *)webViewFirstResponder:(WebView *)sender {
+	return nil;
+}
+
+- (void)webView:(WebView *)sender makeFirstResponder:(NSResponder *)responder {
+}
+
 - (void)webView:(WebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message {
 	NSLog(@"%@ received %@ with '%@'", self, NSStringFromSelector(_cmd), message);
+}
+
+- (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {
+	return defaultMenuItems;
+}
+
+- (BOOL)webView:(WebView *)sender shouldPerformAction:(SEL)action fromSender:(id)fromObject {
+	return YES;
+}
+
+- (BOOL)webView:(WebView *)sender validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)item defaultValidation:(BOOL)defaultValidation {
+	return YES;
 }
 
 #pragma mark -
@@ -102,6 +127,10 @@
 
 - (void)javascriptUpdateChangeCount:(NSNumber *)changeType {
 	[self updateChangeCount:[changeType integerValue]];
+}
+
+- (void)javascriptConsoleLog:(NSString *)aString {
+	NSLog(aString, nil);
 }
 
 #pragma mark -
