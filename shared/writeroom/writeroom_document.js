@@ -1,4 +1,4 @@
-define("writeroom/document", function(require, exports, module) {
+define("writeroom/writeroom_document", function(require, exports, module) {
 	
 	var oop = require("pilot/oop");
 	var Document = require("ace/document").Document;

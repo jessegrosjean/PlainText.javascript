@@ -28,7 +28,8 @@ define("writeroom/base", function(require, exports, module) {
 			var delta = e.data,
 				range = delta.range,
 				beforeStart = exports.movePointLeftInline(editor, range.start),
-				afterEnd = exports.movePointLeftInline(editor, range.end);
+				afterEnd = exports.movePointLeftInline(editor, range.end),
+				beforeChar, afterChar;
 			
 			console.log(delta);
 			var text = "";
@@ -47,9 +48,10 @@ define("writeroom/base", function(require, exports, module) {
 			
 			if( delta.action === "removeText" && (delta.text.charCodeAt(0) === 13 || delta.text === newlineChar) ) {
 				afterEnd = range.start;
-				if( afterEnd === null ) return; // deleted an empty line
-				var beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
-				var afterChar = editor.session.getLine(afterEnd.row).charAt(afterEnd.column);
+				if( afterEnd === null || beforeStart === null ) return; // deleted an empty line
+				beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
+				afterChar = editor.session.getLine(afterEnd.row).charAt(afterEnd.column);
+				if( afterChar === "" || beforeChar === "" ) return; // newly created line
 				if( beforeChar.match(/\s/) === null && afterChar.match(/\s/) === null ) {
 					updateFn(-1);
 				}
@@ -57,9 +59,10 @@ define("writeroom/base", function(require, exports, module) {
 			}
 			
 			if( delta.action === "insertText" && (delta.text.charCodeAt(0) === 13 || delta.text === newlineChar) ) {
-				var beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
-				var afterChar = editor.session.getLine(range.end.row).charAt(range.end.column);
-				if( afterChar === "" ) return; // newly created line
+				if( beforeStart === null ) return;
+				beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
+				afterChar = editor.session.getLine(range.end.row).charAt(range.end.column);
+				if( afterChar === "" || beforeChar === "" ) return; // newly created line
 				if( beforeChar.match(/\s/) === null && afterChar.match(/\s/) === null ) {
 					updateFn(1);
 				}
