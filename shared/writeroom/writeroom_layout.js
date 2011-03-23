@@ -49,19 +49,21 @@ define("writeroom/layout", function(require, exports, module) {
                 rend.content.style["padding-left"] =
                 rend.content.style["padding-right"] =
                 	rend.$padding + "px";
-                rend.$loop.schedule(this.CHANGE_FULL);
                 rend.$updatePrintMargin();
+                rend.$loop.schedule(this.CHANGE_FULL);
+                
         		
         		if( _this.trail > 0 ) {
 	            	var height = dom.getInnerHeight(rend.container);
 	            	var lineHeight = rend.lineHeight;
 	            	ed.getSession().setTrailLines((height*_this.trail)/lineHeight);
-	            	rend.$updateScrollBar();
         		}
         		
         		if( _this.lead > 0 ) {
         			rend.setLead(dom.getInnerHeight(rend.container)*_this.lead);
         		}
+        		
+        		rend.$updateScrollBar();
         	};
         },
         
