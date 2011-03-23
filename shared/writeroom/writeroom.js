@@ -30,7 +30,7 @@ define("writeroom/base", function(require, exports, module) {
 				beforeStart = exports.movePointLeftInline(editor, range.start),
 				afterEnd = exports.movePointLeftInline(editor, range.end);
 			
-				
+			console.log(delta);
 			var text = "";
 			if( delta.action === "insertText" || delta.action === "removeText" )
 				text = delta.text;
@@ -43,8 +43,10 @@ define("writeroom/base", function(require, exports, module) {
 				else updateFn(res);
 				return;
 			}
-			if( delta.action === "removeText" && delta.text.charCodeAt(0) === 13 ) {
-				afterEnd = exports.movePointRightInline(editor, range.start);
+			var newlineChar = editor.session.doc.getNewLineCharacter();
+			
+			if( delta.action === "removeText" && (delta.text.charCodeAt(0) === 13 || delta.text === newlineChar) ) {
+				afterEnd = range.start;
 				if( afterEnd === null ) return; // deleted an empty line
 				var beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
 				var afterChar = editor.session.getLine(afterEnd.row).charAt(afterEnd.column);
@@ -54,7 +56,7 @@ define("writeroom/base", function(require, exports, module) {
 				return;
 			}
 			
-			if( delta.action === "insertText" && delta.text.charCodeAt(0) === 13 ) {
+			if( delta.action === "insertText" && (delta.text.charCodeAt(0) === 13 || delta.text === newlineChar) ) {
 				var beforeChar = editor.session.getLine(beforeStart.row).charAt(beforeStart.column);
 				var afterChar = editor.session.getLine(range.end.row).charAt(range.end.column);
 				if( afterChar === "" ) return; // newly created line
