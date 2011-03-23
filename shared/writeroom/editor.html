@@ -51,15 +51,19 @@ body {
 	width: 100%;
 	bottom: 0;
 	height: 20px;
-	background: black;
+	background: rgba(0,0,0,.75);
 	padding: 0;
 	margin: 0;
 	font-family: Verdana, Arial, consolas, courier, monospace;
 }
 
-#statusbar p {
+#statusbar span {
 	margin: 1px;
-	text-align: middle;
+	font-size: .8em;
+}
+
+#wordcount {
+	text-align: right;
 }
 
 .ace-tmwr .ace_text-layer {
@@ -73,7 +77,7 @@ body {
 
 <pre id="editor"></pre>
 <div id="statusbar">
-
+	<span id="wordcount">Wordcount: 0</span>
 </div>
 
 <script src="../ace/src/ace-uncompressed.js" type="text/javascript"
@@ -91,15 +95,6 @@ body {
 <script src="writeroom_commands.js" lang="javascript"></script>
 
 <script>
-	require({
-		paths: {
-			ace: "../ace/lib/ace",
-			cockpit: "../ace/support/cockpit/lib/cockpit",
-			pilot: "../ace/support/pilot/lib/pilot",
-			writeroom: "."
-		}
-	});
-
 	var dom = require("pilot/dom");
 	var Event = require("pilot/event");
 	var catalog = require("pilot/plugin_manager").catalog;
@@ -112,7 +107,8 @@ body {
 	var Renderer = require("writeroom/renderer").WrRenderer;
 	var Document = require("writeroom/writeroom_document").WrDocument;
 	var EditSession = require("writeroom/edit_session").WrEditSession;
-	
+</script>
+<script>
 var editor, effect, layoutManager;
 catalog.registerPlugins([ "pilot/index" ]);
 
@@ -168,7 +164,8 @@ window.onload = function() {
 	var wcl = Wr.getWordCountListener(editor, 
 			function (wordDelta) {
 				wordCount+= wordDelta;
-				console.log("WordCount: "+wordCount);
+				var el = document.getElementById("wordcount");
+				el.innerText = "Wordcount: " + wordCount;
 			}
 	);
 	Event.addListener(editor.session, "change", wcl);
