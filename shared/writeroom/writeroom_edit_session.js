@@ -5,7 +5,6 @@ define("writeroom/edit_session", function(require, exports, module) {
 	var Wr = require("writeroom/base");
 
 	var WrEditSession = function WrEditSession(text,mode) {
-		// Calling the EditSession constructor on our object, so we look like EditSession
 		EditSession.prototype.constructor.apply(this, arguments);
 		this.$trailLines = this.$leadLines = 0;
 		this.$sessionWordCount = 0;
@@ -28,7 +27,7 @@ define("writeroom/edit_session", function(require, exports, module) {
 	oop.inherits(WrEditSession, EditSession);
 
 	(function() {
-
+		
 		this.setTrailLines = function setTrailLines(numLines) { 
 			this.$trailLines = numLines;
 		};
@@ -41,6 +40,12 @@ define("writeroom/edit_session", function(require, exports, module) {
 			var screenRows = WrEditSession.super_.getScreenLength.call(this);
 			return screenRows + this.$leadLines + this.$trailLines;
 		};
+
+		this.setValue = function setValue(text) {
+			EditSession.prototype.setValue.apply(this, arguments);
+			this.$sessionWordCount = 0;
+			this._dispatchEvent("wordCountUpdated", this.$getWordCountInfo(0)); // not sure what to put for changed by...
+		}
 
 		this.updateWordCount = function updateWordCount(changeBy) {
 			if( changeBy === 0 ) return;
