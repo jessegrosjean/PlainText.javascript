@@ -78,6 +78,8 @@ body {
 <pre id="editor"></pre>
 <div id="statusbar">
 	<span id="wordcount">Wordcount: 0</span>
+	<span>&nbsp;|&nbsp;</span>
+	<span id="session_wordcount">Words written this session: 0</span>
 </div>
 
 <script src="../ace/src/ace-uncompressed.js" type="text/javascript"
@@ -161,15 +163,12 @@ window.onload = function() {
 	layoutManager.keepCurrentLineAtCenter();
 	editor.focus();
 	
-	var wordCount = 0;
-	var wcl = Wr.getWordCountListener(editor, 
-			function (wordDelta) {
-				wordCount+= wordDelta;
-				var el = document.getElementById("wordcount");
-				el.innerText = "Wordcount: " + wordCount;
-			}
-	);
-	Event.addListener(editor.session, "change", wcl);
+	Event.addListener(editor.session, "wordCountUpdated", function(e){
+		var el = document.getElementById("wordcount");
+		el.innerText = "Wordcount: " + e.total;
+		el = document.getElementById("session_wordcount");
+		el.innerText = "Words written this session: " + e.session;
+	});
 	
 };
 </script>
