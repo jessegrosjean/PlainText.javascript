@@ -14,6 +14,7 @@ define("writeroom/edit_session", function(require, exports, module) {
 		for( var i = 0; i < lines.length; i++ ) {
 			this.$wordCount += Wr.countWords(lines[i]).words;
 		}
+		this._dispatchEvent("wordCountUpdated", this.$getWordCountInfo(this.$wordCount));
 	};
 
 	oop.inherits(WrEditSession, EditSession);
@@ -37,8 +38,11 @@ define("writeroom/edit_session", function(require, exports, module) {
 			if( changeBy === 0 ) return;
 			this.$wordCount += changeBy;
 			this.$sessionWordCount += changeBy;
-			this._dispatchEvent("wordCountUpdated", 
-					{"total":this.$wordCount, "session":this.$sessionWordCount, "change":changeBy});
+			this._dispatchEvent("wordCountUpdated", this.$getWordCountInfo(changeBy));
+		};
+		
+		this.$getWordCountInfo = function $getWordCountInfo(changeBy) {
+			return {"total":this.$wordCount, "session":this.$sessionWordCount, "change":changeBy};
 		};
 
 
