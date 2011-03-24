@@ -136,8 +136,9 @@ window.onload = function() {
         env.editor = editor;
         editor.resize();
         Event.addListener(window, "resize", function(e) {
-            editor.resize();
-            centering(e);
+        	centering(e);
+        	editor.resize();
+            
         });
         elem.env = env;
     });
