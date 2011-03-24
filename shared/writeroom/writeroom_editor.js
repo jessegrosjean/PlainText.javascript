@@ -55,12 +55,16 @@ define("writeroom/editor", function(require, exports, module) {
 
 		};
 	 
-		this.toggleBold = function(options) {
+		this.toggleStrong = function(options) {
 			this.toggleSpanWithBoundary("**");
 		};
 
-		this.toggleItalic = function(options) {
+		this.toggleEmphasize = function(options) {
 			this.toggleSpanWithBoundary("_");
+		};
+
+		this.toggleDelete = function(options) {
+			this.toggleSpanWithBoundary("~");
 		};
 
 	}).call(WrEditor.prototype);

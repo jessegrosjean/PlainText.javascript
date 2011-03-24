@@ -130,7 +130,7 @@
 }
 
 - (void)javascriptConsoleLog:(NSString *)aString {
-	NSLog(aString, nil);
+	NSLog([aString description], nil);
 }
 
 #pragma mark -
@@ -148,12 +148,12 @@
 	[webView.jsEditor callWebScriptMethod:@"strong" withArguments:[NSArray array]];
 }
 
-- (IBAction)em:(id)sender {
-	[webView.jsEditor callWebScriptMethod:@"em" withArguments:[NSArray array]];
+- (IBAction)emphasize:(id)sender {
+	[webView.jsEditor callWebScriptMethod:@"emphasize" withArguments:[NSArray array]];
 }
 
-- (IBAction)underline:(id)sender {	
-	[webView.jsEditor callWebScriptMethod:@"underline" withArguments:[NSArray array]];
+- (IBAction)strikethrough:(id)sender {	
+	[webView.jsEditor callWebScriptMethod:@"delete" withArguments:[NSArray array]];
 }
 
 - (IBAction)bigger:(id)sender {
@@ -239,7 +239,9 @@
 		return [[webView.jsUndoManager callWebScriptMethod:@"hasUndo" withArguments:[NSArray array]] boolValue];
 	} else if (action == @selector(redo:)) {
 		return [[webView.jsUndoManager callWebScriptMethod:@"hasRedo" withArguments:[NSArray array]] boolValue];
-	} else if (action == @selector(strong:) || action == @selector(em:) || action == @selector(underline:)) {
+	} else if (action == @selector(strong:) || action == @selector(emphasize:) || action == @selector(strikethrough:)) {
+		return YES;
+	} else if (action == @selector(cut:) || action == @selector(copy:)) {
 		return ![[webView.jsSelection callWebScriptMethod:@"isEmpty" withArguments:[NSArray array]] boolValue];
 	} else if (action == @selector(toggleFullSingleScreen:)) {
 		if ([webView isInFullScreenMode]) {

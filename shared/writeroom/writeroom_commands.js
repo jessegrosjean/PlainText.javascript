@@ -13,15 +13,21 @@ define("writeroom/commands", function(require, exports, module) {
 	}
    
 	canon.addCommand({
-		name: "bold",
+		name: "strong",
 		bindKey: bindKey("Ctrl-B", "Command-B"),
-		exec: function(env, args, request) { env.editor.toggleBold(); }
+		exec: function(env, args, request) { env.editor.toggleStrong(); }
 	});
    
 	canon.addCommand({
-		name: "italic",
+		name: "emphasize",
 		bindKey: bindKey("Ctrl-I", "Command-I"),
-		exec: function(env, args, request) { env.editor.toggleItalic(); }
+		exec: function(env, args, request) { env.editor.toggleEmphasize(); }
+	});
+
+	canon.addCommand({
+		name: "delete",
+		bindKey: bindKey("Ctrl-D", "Command-D"),
+		exec: function(env, args, request) { env.editor.toggleDelete(); }
 	});
 
 });

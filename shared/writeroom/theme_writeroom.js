@@ -79,6 +79,9 @@ define("writeroom/theme", function(require, exports, module) {
 .ace-tmwr .ace_line .ace_emphasis {\
     font-style: italic;\
 }\
+.ace-tmwr .ace_line .ace_delete {\
+	text-decoration: line-through;\
+}\
 .ace-tmwr .ace_line .ace_strong {\
     font-weight: bold;\
 }\

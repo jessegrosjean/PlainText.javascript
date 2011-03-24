@@ -21,8 +21,8 @@
 }
 
 - (IBAction)strong:(id)sender;
-- (IBAction)em:(id)sender;
-- (IBAction)underline:(id)sender;
+- (IBAction)emphasize:(id)sender;
+- (IBAction)strikethrough:(id)sender;
 - (IBAction)bigger:(id)sender;
 - (IBAction)smaller:(id)sender;
 - (IBAction)toggleFullSingleScreen:(id)sender;

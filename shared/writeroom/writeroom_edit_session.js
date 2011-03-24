@@ -10,6 +10,14 @@ define("writeroom/edit_session", function(require, exports, module) {
 		this.$trailLines = this.$leadLines = 0;
 		this.$sessionWordCount = 0;
 		this.$wordCount = 0;
+
+		/*
+		this.$sessionStartDocumentState = text;
+		this.$sessionStartTime = 0;
+		this.$sessionTargetWordCount = null;
+		this.$sessionTargetWritingTime = null;
+		 */
+		
 		var lines = this.doc.$lines;
 		for( var i = 0; i < lines.length; i++ ) {
 			this.$wordCount += Wr.countWords(lines[i]).words;

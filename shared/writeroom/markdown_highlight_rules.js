@@ -25,11 +25,16 @@ var MarkdownHighlightRules = function()
                 regex: "^\\s*\\d+\\.\\s",
                 next : "start"
             },
-            {
-                token : "keyword", 
-                regex : "_(?=[^_]+_)",
-                next  : "emInner"
-            },
+			{
+				token : "keyword", 
+				regex : "_(?=[^_]+_)",
+				next  : "emInner"
+			},
+			{
+				token : "keyword", 
+				regex : "~(?=[^~]+~)",
+				next  : "delInner"
+			},
             {
                 token : "keyword", 
                 regex : "\\*\\*(?=[^*]+\\*\\*)", // needs more work
@@ -75,6 +80,13 @@ var MarkdownHighlightRules = function()
                 next : "emClose"
             }
         ],
+        "delInner" : [
+		{
+			token : "delete",
+			regex: "[^~]+",
+			next : "delClose"
+		}
+        ],
         "strongInner" : [
             {
                 token : "strong",
@@ -83,11 +95,18 @@ var MarkdownHighlightRules = function()
             }
         ],
         "emClose" : [
-            {
-                token : "keyword",
-                regex: "_",
-                next : "start"
-            }
+		{
+			token : "keyword",
+			regex: "_",
+			next : "start"
+		}
+        ],
+        "delClose" : [
+		{
+			token : "keyword",
+			regex: "~",
+			next : "start"
+		}
         ],
         "strongClose" : [
             {
