@@ -83,7 +83,7 @@ define("writeroom/layout", function(require, exports, module) {
 
 			addLead: function addLead(percScreen) {
 				this.lead = percScreen / 100;
-				var rend =this.editor.renderer; 
+				var rend = this.editor.renderer; 
 				rend.setLead(dom.getInnerHeight(rend.container)*this.lead);
 			},
 
