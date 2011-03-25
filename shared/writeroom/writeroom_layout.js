@@ -90,7 +90,7 @@ define("writeroom/layout", function(require, exports, module) {
 			keepCurrentLineAtCenter: function keepCurrentLineAtCenter() {
 				var _this = this;
 				var lastLine = -1024;
-				this.editor.session.getSelection().addEventListener("changeCursor", function(e){
+				this.editor.session.addEventListener("change", function(e){
 					var ed = _this.editor,
 					rend = ed.renderer,
 					pos = ed.getCursorPosition();
