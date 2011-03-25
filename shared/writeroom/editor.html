@@ -145,6 +145,7 @@ window.onload = function() {
     catalog.startupPlugins({ env: env }).then(function() {
         env.document = session;
         env.editor = editor;
+        centering(null);
         editor.resize();
         Event.addListener(window, "resize", function(e) {
         	centering(e);

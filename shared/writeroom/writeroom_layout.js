@@ -44,15 +44,19 @@ define("writeroom/layout", function(require, exports, module) {
 					innerWidth = charWidth * blockWidth,
 					remaining = width - innerWidth;
 
-					rend.setPrintMarginColumn(blockWidth);
 					rend.$padding = remaining/2;
-					rend.$updatePrintMargin();
-					rend.$loop.schedule(this.CHANGE_FULL);
 					rend.content.style["padding-left"] =
 						rend.content.style["padding-right"] =
 							rend.$padding + "px";
-
-
+					
+					if( ed.session.getWrapLimit() !== blockWidth ) {
+						ed.session.setWrapLimitRange(blockWidth,blockWidth);
+						ed.session.adjustWrapLimit(blockWidth);
+					}
+					
+					rend.$loop.schedule(this.CHANGE_FULL);
+					rend.setPrintMarginColumn(blockWidth);
+					rend.$updatePrintMargin();
 
 					if( _this.trail > 0 ) {
 						var height = dom.getInnerHeight(rend.container);
