@@ -38,7 +38,7 @@ define("writeroom/edit_session", function(require, exports, module) {
 
 		this.getScreenLength = function getScreenLength() {
 			var screenRows = WrEditSession.super_.getScreenLength.call(this);
-			return screenRows + this.$leadLines + this.$trailLines;
+			return screenRows + this.$trailLines;
 		};
 
 		this.setValue = function setValue(text) {
