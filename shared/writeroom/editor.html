@@ -29,19 +29,16 @@ body {
 	padding: 0;
 	height: 100%;
 	width: 100%;
-	font-family: DejaVuSansMono, consolas, Helvetica, sans-serif, Tahoma, Verdana, sans-serif;
-	font-size: 12px;
-	background: white;
-	color: white;
+	font-family: DejaVuSansMono;
+	font-size: 14px;
 }
 
 #editor {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	bottom: 20px;
+	bottom: 0px;
 	right: 0px;
-	background: white;
 	margin: 0;
 	border: 1px black;
 }
@@ -50,16 +47,14 @@ body {
 	position: absolute;
 	width: 100%;
 	bottom: 0;
-	height: 20px;
-	background: rgba(0,0,0,.75);
-	padding: 0;
+	height: 16px;
+	padding: 4px;
 	margin: 0;
-	font-family: Verdana, Arial, consolas, courier, monospace;
+	font-size: 14px;
+	font-family: DejaVuSansMono;
 }
 
 #statusbar span {
-	margin: 1px;
-	font-size: .8em;
 }
 
 #wordcount {
@@ -86,11 +81,9 @@ Writing is easy. All you do is stare at a blank sheet of paper until drops of bl
 -- Gene Fowler
 </pre>
 <div id="statusbar">
-	<span id="wordcount">Wordcount: 0</span>
-	<span>&nbsp;|&nbsp;</span>
-	<span id="session_wordcount">Words written this session: 0</span>
+	<span id="wordcount">Document: 0, Session: 0</span>
 </div>
-
+	
 <script src="../ace/src/ace-uncompressed.js" type="text/javascript"
 	charset="utf-8"></script>
 <script src="markdown_highlight_rules.js" lang="javascript"></script>
@@ -176,10 +169,12 @@ window.onload = function() {
 	editor.focus();
 	
 	function wordFn(e){
-		var el = document.getElementById("wordcount");
-		el.innerText = "Wordcount: " + e.total;
-		el = document.getElementById("session_wordcount");
-		el.innerText = "Words written this session: " + e.session;
+		var wordcount = document.getElementById("wordcount");
+		var text = "Document: " + e.total + ", Session: " + e.session;
+		if (e.selection > 0) {
+			text += ", Selection: " + e.selection;
+		}
+		wordcount.innerText = text;
 	}
 	
 	Event.addListener(editor.session, "wordCountUpdated", wordFn);

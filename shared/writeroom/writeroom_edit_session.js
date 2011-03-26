@@ -55,7 +55,14 @@ define("writeroom/edit_session", function(require, exports, module) {
 		};
 		
 		this.$getWordCountInfo = function $getWordCountInfo(changeBy) {
-			return {"total":this.$wordCount, "session":this.$sessionWordCount, "change":changeBy};
+			var selection = this.getSelection();
+			var selectionWordCount = 0;
+			if (!selection.isEmpty()) {
+				var range = selection.getRange();
+				var text = this.getTextRange(range);
+				selectionWordCount = Wr.countWords(text);
+			}
+			return {"total":this.$wordCount, "session":this.$sessionWordCount, "change":changeBy, "selection":selectionWordCount};
 		};
 
 
