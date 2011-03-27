@@ -45,7 +45,7 @@ define("writeroom/edit_session", function(require, exports, module) {
 			EditSession.prototype.setValue.apply(this, arguments);
 			this.$sessionWordCount = 0;
 			this._dispatchEvent("wordCountUpdated", this.$getWordCountInfo(0));
-		}
+		};
 
 		this.updateWordCount = function updateWordCount(changeBy) {
 			if( changeBy === 0 ) return;
