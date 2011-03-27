@@ -119,7 +119,6 @@ var editor, effect, layoutManager;
 catalog.registerPlugins([ "pilot/index" ]);
 
 window.onload = function() {
-
 	var elem= document.getElementById("editor");
 	var doc = new Document(dom.getInnerText(elem));
 	var session = new EditSession(doc, new MarkdownMode());
@@ -164,6 +163,7 @@ window.onload = function() {
 	// Call layout once, and give automatic focus to the editor
 	layoutManager.addTrail(50);	// should be called before centering in startupmode
 	layoutManager.addLead(25);
+	layoutManager.setLineHeight("175%");
 	centering(null);
 	layoutManager.keepCurrentLineAtCenter();
 	editor.focus();

@@ -105,6 +105,10 @@ define("writeroom/layout", function(require, exports, module) {
 						rend.scrollToLine(pos.row, true, true);
 					}
 				});
+			},
+			
+			setLineHeight: function setLineHeight(fsz) {
+				document.getElementById("editor").style["line-height"] = fsz;
 			}
 
 	};
