@@ -98,11 +98,11 @@ define("writeroom/layout", function(require, exports, module) {
 					
 					if( delta.action === "insertText" || delta.action === "removeText" ) {
 						if( delta.text.charCodeAt(0) === 13 || delta.text[0] === "\r" || delta.text[0] === "\n") {
-							rend.scrollToLine(pos.row, true);
+							rend.scrollToLine(pos.row, true, true);
 							lastLine = pos.row;
 						}
 					} else {
-						rend.scrollToLine(pos.row, true);
+						rend.scrollToLine(pos.row, true, true);
 					}
 				});
 			}

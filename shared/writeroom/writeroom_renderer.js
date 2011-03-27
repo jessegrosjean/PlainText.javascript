@@ -86,6 +86,7 @@ define("writeroom/renderer", function(require, exports, module) {
 	
 		
 		this.$leadLines = 0;
+		this._scrolling = false;
 	};
 
 	oop.inherits(WrRenderer, VirtualRenderer);
@@ -102,21 +103,58 @@ define("writeroom/renderer", function(require, exports, module) {
 			return this.$leadLines * this.lineHeight;
 		};
 		
+	    this.scrollToLine = function(line, center) {
+	    	var smooth = arguments.length > 2? arguments[2] : false;
+	        var lineHeight = { lineHeight: this.lineHeight };
+	        var offset = 0;
+	        for (var l = 1; l < line; l++) {
+	            offset += this.session.getRowHeight(lineHeight, l-1);
+	        }
+	            
+	        if (center) {
+	            offset -= this.$size.scrollerHeight / 2;
+	        }
+	        this.scrollToY(offset, smooth);
+	    };
+
+		
 		this.scrollToY = function(scrollTop) {
+			var doSmooth = arguments.length > 1? arguments[1] : false;
 			var maxHeight = this.session.getScreenLength() * this.lineHeight - this.$size.scrollerHeight;
 	        var scrollTop = Math.max(-this.getLead(), Math.min(maxHeight, scrollTop));
 
 	        if (this.scrollTop !== scrollTop) {
-	            this.scrollTop = scrollTop;
-	            this.$loop.schedule(this.CHANGE_SCROLL);
+	        	var _this = this;
+	        	if( !doSmooth || this._scrolling === true ) {
+	        		this.scrollTop = scrollTop;
+	            	this.$loop.schedule(this.CHANGE_SCROLL);
+	        	} else {
+	        		this._scrolling = true;
+	        		var fn = function smoothScroll(){
+		        		var diff = (scrollTop - _this.scrollTop)/2;
+			            if( Math.abs(diff) > 1 ) {
+			        		_this.scrollTop += diff;
+			        		_this.$loop.schedule(_this.CHANGE_SCROLL);
+			        		t = setTimeout( smoothScroll, 50);
+			            } else {
+			            	_this.scrollTop = scrollTop;
+			            	_this.$loop.schedule(_this.CHANGE_SCROLL);
+			            	_this._scrolling = false;
+			            }
+		        	};
+		        	var t = setTimeout(fn, 50);
+	        	}
 	        }
+	    };
+	    
+	    this.$smoothScroll = function $smoothScroll() {
+	    	
 	    };
 	    
 	    this.$updateScrollBar = function() {
 	        this.scrollBar.setInnerHeight(this.session.getScreenLength() * this.lineHeight + this.getLead());
 	        this.scrollBar.setScrollTop(this.scrollTop + this.getLead());
 	    };
-
 	}).call(WrRenderer.prototype);
 
 

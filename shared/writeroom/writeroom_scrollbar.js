@@ -16,6 +16,10 @@ define("writeroom/scrollbar", function(require, exports, module) {
 	        this._dispatchEvent("scroll", {data: this.element.scrollTop - this.renderer.getLead()});
 	    };
 	    
+	    this.getScrollTop = function getScrollTop(){
+	    	return this.element.scrollTop;
+	    };
+	    
 		
 	}).call(WrScrollBar.prototype);
 	
