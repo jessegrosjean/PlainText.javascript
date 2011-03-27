@@ -59,6 +59,7 @@ define("writeroom/edit_session", function(require, exports, module) {
 			var selectionWordCount = 0;
 			if (!selection.isEmpty()) {
 				var range = selection.getRange();
+				console.log(range);
 				var text = this.getTextRange(range);
 				selectionWordCount = Wr.countWords(text);
 			}
@@ -77,7 +78,11 @@ define("writeroom/edit_session", function(require, exports, module) {
 
 			this.$updateWrapDataOnChange(e);
 			this._dispatchEvent("change", e);
-			this.$detectWordCountChanges(e, this.updateWordCount.bind(this));
+			var _this = this;
+			setTimeout(function(){
+				_this.$detectWordCountChanges(e, _this.updateWordCount.bind(_this));
+			}, 0);
+			
 		};
 
 		this.$detectWordCountChanges = function $detectWordCountChanges(e, updateFn) {

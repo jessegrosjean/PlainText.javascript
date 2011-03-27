@@ -103,8 +103,7 @@ define("writeroom/renderer", function(require, exports, module) {
 		};
 		
 		this.scrollToY = function(scrollTop) {
-			console.log("ScrollToY: ",scrollTop);
-	        var maxHeight = this.session.getScreenLength() * this.lineHeight - this.$size.scrollerHeight;
+			var maxHeight = this.session.getScreenLength() * this.lineHeight - this.$size.scrollerHeight;
 	        var scrollTop = Math.max(-this.getLead(), Math.min(maxHeight, scrollTop));
 
 	        if (this.scrollTop !== scrollTop) {

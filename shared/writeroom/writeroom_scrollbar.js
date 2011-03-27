@@ -4,7 +4,6 @@ define("writeroom/scrollbar", function(require, exports, module) {
 	var ScrollBar = require("ace/scrollbar").ScrollBar;
 	
 	var WrScrollBar = function WrScrollBar(renderer, container) {
-		console.log(renderer, container);
 		ScrollBar.prototype.constructor.call(this, container);
 		this.renderer = renderer;
 	};
@@ -14,8 +13,7 @@ define("writeroom/scrollbar", function(require, exports, module) {
 	(function(){
 		
 		this.onScroll = function() {
-	        console.log(this.element.scrollTop, this.renderer.getLead());
-			this._dispatchEvent("scroll", {data: this.element.scrollTop - this.renderer.getLead()});
+	        this._dispatchEvent("scroll", {data: this.element.scrollTop - this.renderer.getLead()});
 	    };
 	    
 		

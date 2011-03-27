@@ -93,10 +93,16 @@ define("writeroom/layout", function(require, exports, module) {
 				this.editor.session.addEventListener("change", function(e){
 					var ed = _this.editor,
 					rend = ed.renderer,
+					delta = e.data,
 					pos = ed.getCursorPosition();
-					if( lastLine !== pos.row ) {
+					
+					if( delta.action === "insertText" || delta.action === "removeText" ) {
+						if( delta.text.charCodeAt(0) === 13 || delta.text[0] === "\r" || delta.text[0] === "\n") {
+							rend.scrollToLine(pos.row, true);
+							lastLine = pos.row;
+						}
+					} else {
 						rend.scrollToLine(pos.row, true);
-						lastLine = pos.row;
 					}
 				});
 			}
