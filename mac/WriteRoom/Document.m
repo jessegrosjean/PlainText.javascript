@@ -67,6 +67,7 @@
 	[super windowControllerDidLoadNib:windowController];
 	
 	[[webView window] setAlphaValue:0.0];
+	[[webView window] setShowsResizeIndicator:NO];
 	[webView setUIDelegate:self];
 	[webView setFrameLoadDelegate:self];
 	[webView setMaintainsBackForwardList:NO];
