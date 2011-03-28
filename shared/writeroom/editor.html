@@ -131,17 +131,17 @@ window.onload = function() {
 	layoutManager = new LayoutManager(editor);
 	
 	var centering = layoutManager.layoutCenter(80);
-		
+
+	
 	var env = require("pilot/environment").create();
     catalog.startupPlugins({ env: env }).then(function() {
         env.document = session;
         env.editor = editor;
-        centering(null);
+    	centering(null);
         editor.resize();
         Event.addListener(window, "resize", function(e) {
         	centering(e);
         	editor.resize();
-            
         });
         elem.env = env;
     });
@@ -160,7 +160,6 @@ window.onload = function() {
 	// Call layout once, and give automatic focus to the editor
 	layoutManager.addTrail(50);	// should be called before centering in startupmode
 	layoutManager.addLead(25);
-	layoutManager.setLineHeight("175%");
 	centering(null);
 	layoutManager.keepCurrentLineAtCenter();
 	editor.focus();
@@ -176,6 +175,7 @@ window.onload = function() {
 	
 	Event.addListener(editor.session, "wordCountUpdated", wordFn);
 	wordFn(editor.session.$getWordCountInfo(editor.session.$wordCount));	
+	layoutManager.setLineHeight("175%");
 };
 </script>
 

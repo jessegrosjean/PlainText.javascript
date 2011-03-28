@@ -122,10 +122,12 @@ define("writeroom/layout", function(require, exports, module) {
 			
 			setLineHeight: function setLineHeight(fsz) {
 				document.getElementById("editor").style["line-height"] = fsz;
+				editor.renderer.$textLayer.checkForSizeChanges();
 			},
 			
 			setFontSize: function setFontSize(fsz) {
 				document.getElementById("editor").style.fontSize = fsz;
+				editor.renderer.$textLayer.checkForSizeChanges();
 			}
 
 	};
