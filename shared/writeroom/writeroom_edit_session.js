@@ -22,6 +22,10 @@ define("writeroom/edit_session", function(require, exports, module) {
 			this.$wordCount += Wr.countWords(lines[i]).words;
 		}
 		this._dispatchEvent("wordCountUpdated", this.$getWordCountInfo(this.$wordCount));
+		
+		this.addEventListener("change", function(e) {
+			this.$detectWordCountChanges(e, this.updateWordCount.bind(this));
+		}.bind(this));
 	};
 
 	oop.inherits(WrEditSession, EditSession);
@@ -57,9 +61,8 @@ define("writeroom/edit_session", function(require, exports, module) {
 		this.$getWordCountInfo = function $getWordCountInfo(changeBy) {
 			var selection = this.getSelection();
 			var selectionWordCount = 0;
-			if (!selection.isEmpty()) {
+			if (!selection.isEmpty() && changeBy > 0) {
 				var range = selection.getRange();
-				console.log(range);
 				var text = this.getTextRange(range);
 				selectionWordCount = Wr.countWords(text);
 			}
@@ -78,11 +81,7 @@ define("writeroom/edit_session", function(require, exports, module) {
 
 			this.$updateWrapDataOnChange(e);
 			this._dispatchEvent("change", e);
-			var _this = this;
-			setTimeout(function(){
-				_this.$detectWordCountChanges(e, _this.updateWordCount.bind(_this));
-			}, 0);
-			
+			var _this = this;			
 		};
 
 		this.$detectWordCountChanges = function $detectWordCountChanges(e, updateFn) {
