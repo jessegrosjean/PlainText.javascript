@@ -99,7 +99,10 @@ define("writeroom/layout", function(require, exports, module) {
 					
 					if( delta.action === "insertText" || delta.action === "removeText" ) {
 						if( !prevEnter && (delta.text.charCodeAt(0) === 13 || delta.text[0] === "\r" || delta.text[0] === "\n")) {
-							rend.scrollToLine(pos.row, true, true);
+							if( delta.action === "insertText" )
+								rend.scrollToLine(delta.range.end.row, true, true);
+							else
+								rend.scrollToLine(delta.range.start.row, true, true);
 							prevEnter = true;
 							return;
 						}
