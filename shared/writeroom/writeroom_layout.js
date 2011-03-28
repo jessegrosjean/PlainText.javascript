@@ -90,6 +90,7 @@ define("writeroom/layout", function(require, exports, module) {
 			keepCurrentLineAtCenter: function keepCurrentLineAtCenter() {
 				var _this = this;
 				var lastLine = -1024;
+				var prevEnter = false;
 				this.editor.session.addEventListener("change", function(e){
 					var ed = _this.editor,
 					rend = ed.renderer,
@@ -97,12 +98,21 @@ define("writeroom/layout", function(require, exports, module) {
 					pos = ed.getCursorPosition();
 					
 					if( delta.action === "insertText" || delta.action === "removeText" ) {
-						if( delta.text.charCodeAt(0) === 13 || delta.text[0] === "\r" || delta.text[0] === "\n") {
+						if( !prevEnter && (delta.text.charCodeAt(0) === 13 || delta.text[0] === "\r" || delta.text[0] === "\n")) {
 							rend.scrollToLine(pos.row, true, true);
-							lastLine = pos.row;
+							prevEnter = true;
+							return;
+						}
+						
+						if ( prevEnter && (delta.text.charCodeAt(0) === 13 || delta.text[0] === "\r" || delta.text[0] === "\n") ){
+							rend.scrollToLine(pos.row, true, false);
+						} else {
+							prevEnter = false;
+							rend.scrollToLine(pos.row, true, true);
 						}
 					} else {
-						rend.scrollToLine(pos.row, true, true);
+						rend.scrollToLine(pos.row, true, false);
+						prevEnter = false;
 					}
 				});
 			},
