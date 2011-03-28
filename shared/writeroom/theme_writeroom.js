@@ -9,6 +9,24 @@ define("writeroom/theme", function(require, exports, module) {
     font-size: 14px;\
 	background: rgb(250,250,250);\
 }\
+#statusbar {\
+	background: rgba(250,250,250, 0.75);\
+}\
+\
+::-webkit-scrollbar {\
+	width: 16px;\
+	height: 16px;\
+}\
+	::-webkit-scrollbar-button:start:decrement,\
+	::-webkit-scrollbar-button:end:increment  {\
+	display: none;\
+}\
+	::-webkit-scrollbar-thumb:vertical {\
+	-webkit-border-image: url(resources/vertical-thumb.png) 8 0 8 0;\
+	border-color: transparent;\
+	border-width: 8px 0;\
+	min-height: 20px;\
+}\
 \
 .ace-tmwr .ace_editor.ace_focus {\
   border: 2px solid #327fbd;\
